@@ -1,0 +1,135 @@
+.timelineControls {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 5px solid var(--brand);
+  border-bottom: 1px solid var(--line);
+  padding-block: 1rem;
+}
+
+.timelineControls h2 {
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 2rem;
+}
+
+.timelineControls div > span {
+  display: block;
+  max-width: 62ch;
+  margin-top: 0.35rem;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.timelineControls label {
+  display: grid;
+  flex: none;
+  gap: 0.3rem;
+  color: var(--muted);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.timelineControls select {
+  min-height: 44px;
+  border: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: white;
+  color: var(--ink);
+  padding: 0.5rem 2rem 0.5rem 0.7rem;
+  font-size: 0.75rem;
+}
+
+.timeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline > li {
+  position: relative;
+  border-bottom: 1px solid var(--line);
+  padding-block: 1.5rem 2rem;
+}
+
+.timeline > li::before {
+  position: absolute;
+  top: 2rem;
+  left: -2rem;
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--paper);
+  border-radius: 50%;
+  background: var(--cyan-accessible);
+  box-shadow: 0 0 0 1px var(--cyan-accessible);
+  content: "";
+}
+
+.entryMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  color: var(--cyan-accessible);
+  font-size: 0.67rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.entryMeta strong {
+  color: var(--danger);
+}
+
+.timeline h3 {
+  margin: 0.6rem 0 0;
+  color: var(--brand);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.55rem, 3vw, 2.5rem);
+  line-height: 1.06;
+}
+
+.timeline li > p {
+  margin: 0.8rem 0 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.08rem;
+  line-height: 1.6;
+}
+
+.timeline li > span {
+  display: block;
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.timeline aside {
+  margin-top: 1rem;
+  border-left: 3px solid var(--danger);
+  background: #fff3f6;
+  padding: 0.75rem;
+  color: var(--danger);
+  font-size: 0.75rem;
+}
+
+.pinnedEntry {
+  margin-inline: -1rem;
+  border-top: 1px solid #f1c3ce;
+  background: #fff8fa;
+  padding-inline: 1rem;
+}
+
+@media (max-width: 620px) {
+  .timelineControls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .timeline > li::before {
+    display: none;
+  }
+}
+

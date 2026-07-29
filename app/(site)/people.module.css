@@ -1,0 +1,178 @@
+.profileHeader {
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-alt);
+  padding-block: clamp(2.5rem, 6vw, 5rem);
+}
+
+.profileGrid {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 400px);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: end;
+}
+
+.profileGrid h1 {
+  margin-top: 0.75rem;
+}
+
+.profileTitle {
+  margin: 0.75rem 0 0;
+  color: var(--cyan-accessible);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.profileBio {
+  max-width: 62ch;
+  color: var(--muted);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.18rem;
+  line-height: 1.6;
+}
+
+.profileLocation {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.profileLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-top: 1rem;
+}
+
+.profileLinks a {
+  color: var(--cyan-accessible);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-transform: uppercase;
+}
+
+.profileImage {
+  aspect-ratio: 4 / 5;
+}
+
+.authorStories {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.authorStoryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.teamHeader {
+  border-bottom: 1px solid var(--line);
+  background: var(--brand);
+  color: white;
+  padding-block: clamp(3rem, 8vw, 7rem);
+}
+
+.teamHeader h1 {
+  margin-top: 0.75rem;
+}
+
+.teamHeader p {
+  max-width: 60ch;
+  color: #d8d1e6;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.2rem;
+  line-height: 1.55;
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem 1.5rem;
+}
+
+.teamGrid article figure {
+  aspect-ratio: 4 / 5;
+}
+
+.teamGrid article > span,
+.leadershipList article > span {
+  display: block;
+  margin-top: 0.85rem;
+  color: var(--cyan-accessible);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.teamGrid h2,
+.leadershipList h2 {
+  margin: 0.35rem 0 0;
+  color: var(--brand);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.5rem;
+  line-height: 1.05;
+}
+
+.teamGrid p,
+.leadershipList h3 {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.leadershipList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.leadershipList article {
+  border-top: 4px solid var(--brand);
+  padding-top: 1.25rem;
+}
+
+.leadershipList article > span {
+  margin: 0;
+}
+
+.leadershipList h2 {
+  font-size: 2rem;
+}
+
+.leadershipList h3 {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+}
+
+.leadershipList p {
+  color: var(--muted);
+  font-family: var(--font-serif), Georgia, serif;
+  line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+  .authorStoryGrid,
+  .teamGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .profileGrid,
+  .leadershipList {
+    grid-template-columns: 1fr;
+  }
+
+  .profileImage {
+    grid-row: 1;
+  }
+}

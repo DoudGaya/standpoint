@@ -1,0 +1,77 @@
+.contactHeader {
+  background: var(--brand);
+  color: white;
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.contactHeader h1 {
+  max-width: 18ch;
+  margin-top: 0.75rem;
+}
+
+.contactHeader p {
+  max-width: 62ch;
+  color: #d8d1e6;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.15rem;
+  line-height: 1.55;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: 0.75fr 1.25fr;
+  gap: clamp(2rem, 6vw, 6rem);
+}
+
+.contactGrid section {
+  border-top: 5px solid var(--brand);
+}
+
+.contactGrid h2 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 2rem;
+}
+
+.contactGrid section > p,
+.contactGrid dd {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.contactGrid aside {
+  margin-top: 1.5rem;
+  border-left: 4px solid var(--warning);
+  background: #fff7e9;
+  padding: 1rem;
+  color: var(--warning);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.contactGrid aside p {
+  margin-bottom: 0;
+}
+
+.contactGrid dl {
+  margin-top: 2rem;
+}
+
+.contactGrid dt {
+  border-top: 1px solid var(--line);
+  padding-top: 0.75rem;
+  color: var(--brand);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.contactGrid dd {
+  margin: 0.35rem 0 1rem;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 760px) {
+  .contactGrid {
+    grid-template-columns: 1fr;
+  }
+}

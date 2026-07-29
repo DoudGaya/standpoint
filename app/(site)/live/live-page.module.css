@@ -1,0 +1,154 @@
+.liveIndexHeader,
+.liveDetailHeader {
+  background: var(--brand);
+  color: white;
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.liveIndexHeader h1,
+.liveDetailHeader h1 {
+  margin-top: 0.75rem;
+}
+
+.liveIndexHeader p,
+.liveDetailHeader p {
+  max-width: 62ch;
+  color: #d8d1e6;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.15rem;
+  line-height: 1.55;
+}
+
+.liveDetailHeader h1 {
+  max-width: 18ch;
+}
+
+.liveDetailHeader small {
+  color: #bdb7cc;
+  font-size: 0.68rem;
+}
+
+.liveStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--cyan);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.liveCards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.liveCards article {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 2rem;
+}
+
+.liveCards article figure {
+  aspect-ratio: 16 / 9;
+}
+
+.liveCards article > div {
+  padding-top: 1rem;
+}
+
+.liveCards .liveStatus {
+  color: var(--danger);
+}
+
+.liveCards h2 {
+  margin: 0.5rem 0;
+  color: var(--brand);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1;
+}
+
+.liveCards p {
+  color: var(--muted);
+  font-family: var(--font-serif), Georgia, serif;
+  line-height: 1.5;
+}
+
+.liveCards small {
+  color: var(--muted);
+  font-size: 0.66rem;
+}
+
+.liveHero {
+  margin-top: -2rem;
+}
+
+.liveHero > figure {
+  aspect-ratio: 16 / 7;
+  border: 8px solid var(--paper);
+}
+
+.liveDetailGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.65fr);
+  gap: clamp(2rem, 6vw, 6rem);
+}
+
+.liveDetailGrid > aside {
+  position: sticky;
+  top: 1rem;
+  align-self: start;
+  border-top: 5px solid var(--danger);
+  background: #fff3f6;
+  padding: 1.25rem;
+}
+
+.liveDetailGrid > aside h2 {
+  margin: 0;
+  color: var(--brand);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.8rem;
+}
+
+.liveDetailGrid > aside ol {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.liveDetailGrid > aside li {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 0.5rem;
+  border-top: 1px solid #e8b7c3;
+  padding-block: 0.85rem;
+  font-family: var(--font-serif), Georgia, serif;
+  line-height: 1.35;
+}
+
+.liveDetailGrid > aside li span {
+  color: var(--danger);
+}
+
+@media (max-width: 850px) {
+  .liveDetailGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .liveDetailGrid > aside {
+    position: static;
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 650px) {
+  .liveCards {
+    grid-template-columns: 1fr;
+  }
+
+  .liveHero {
+    width: 100%;
+  }
+}

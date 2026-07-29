@@ -1,0 +1,145 @@
+import type { MetadataRoute } from "next";
+import {
+  getCategories,
+  getEvents,
+  getFactChecks,
+  getLiveEvents,
+  getNewsletters,
+  getPeople,
+  getPodcastEpisodes,
+  getPodcastShows,
+  getStorySlugs,
+  getVideos,
+} from "@/lib/content/repository";
+import { absoluteUrl } from "@/lib/site";
+
+const staticPaths = [
+  "/",
+  "/latest",
+  "/news",
+  "/search",
+  "/video",
+  "/watch-live",
+  "/audio",
+  "/podcasts",
+  "/live",
+  "/fact-check",
+  "/opinion",
+  "/investigations",
+  "/photo",
+  "/newsletters",
+  "/events",
+  "/about",
+  "/team",
+  "/leadership",
+  "/contact",
+  "/advertise",
+  "/careers",
+  "/editorial-policy",
+  "/corrections",
+  "/fact-checking-methodology",
+  "/privacy",
+  "/terms",
+  "/cookies",
+  "/accessibility",
+  "/community-guidelines",
+  "/diversity",
+  "/ownership",
+];
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [
+    storySlugs,
+    categories,
+    people,
+    videos,
+    shows,
+    episodes,
+    liveEvents,
+    factChecks,
+    newsletters,
+    events,
+  ] = await Promise.all([
+    getStorySlugs(),
+    getCategories(),
+    getPeople(),
+    getVideos(),
+    getPodcastShows(),
+    getPodcastEpisodes(),
+    getLiveEvents(),
+    getFactChecks(),
+    getNewsletters(),
+    getEvents(),
+  ]);
+  const now = new Date();
+  return [
+    ...staticPaths.map((path) => ({
+      url: absoluteUrl(path),
+      lastModified: now,
+      changeFrequency: path === "/" ? ("hourly" as const) : ("weekly" as const),
+      priority: path === "/" ? 1 : 0.6,
+    })),
+    ...storySlugs.map((story) => ({
+      url: absoluteUrl(`/story/${story.slug}`),
+      lastModified: new Date(story.updatedAt),
+      changeFrequency: "daily" as const,
+      priority: 0.9,
+    })),
+    ...categories.map((category) => ({
+      url: absoluteUrl(`/category/${category.slug}`),
+      lastModified: now,
+      changeFrequency: "hourly" as const,
+      priority: 0.8,
+    })),
+    ...people.map((person) => ({
+      url: absoluteUrl(`/author/${person.slug}`),
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    })),
+    ...videos.map((video) => ({
+      url: absoluteUrl(`/video/${video.slug}`),
+      lastModified: new Date(video.publishedAt),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+      images: [absoluteUrl(video.poster.url)],
+    })),
+    ...shows.map((show) => ({
+      url: absoluteUrl(`/podcasts/${show.slug}`),
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    })),
+    ...episodes.map((episode) => ({
+      url: absoluteUrl(`/podcasts/${episode.showSlug}/${episode.slug}`),
+      lastModified: new Date(episode.publishedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
+    ...liveEvents.map((event) => ({
+      url: absoluteUrl(`/live/${event.slug}`),
+      lastModified: new Date(event.updatedAt),
+      changeFrequency: event.status === "live" ? ("always" as const) : ("never" as const),
+      priority: event.status === "live" ? 1 : 0.5,
+    })),
+    ...factChecks.map((item) => ({
+      url: absoluteUrl(`/fact-check/${item.slug}`),
+      lastModified: new Date(item.reviewDate),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+    ...newsletters.map((item) => ({
+      url: absoluteUrl(`/newsletters/${item.slug}`),
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.5,
+    })),
+    ...events.map((event) => ({
+      url: absoluteUrl(`/events/${event.slug}`),
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.5,
+    })),
+  ];
+}
+

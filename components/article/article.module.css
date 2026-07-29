@@ -1,0 +1,273 @@
+.breadcrumbs {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumbs li + li::before {
+  margin-right: 0.35rem;
+  color: var(--line-strong);
+  content: "/";
+}
+
+.breadcrumbs a:hover {
+  color: var(--cyan-accessible);
+}
+
+.readingProgress {
+  position: fixed;
+  z-index: 90;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: transparent;
+  pointer-events: none;
+}
+
+.readingProgress span {
+  display: block;
+  height: 100%;
+  background: var(--cyan);
+  transition: width 100ms linear;
+}
+
+.shareToolbar {
+  position: sticky;
+  top: 1rem;
+  display: flex;
+  width: 44px;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.shareToolbar button,
+.shareToolbar > a {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: white;
+  color: var(--brand);
+  font-size: 0.63rem;
+  font-weight: 800;
+}
+
+.shareToolbar button:hover,
+.shareToolbar > a:hover {
+  border-color: var(--cyan-accessible);
+  color: var(--cyan-accessible);
+}
+
+.nativeShare {
+  display: none !important;
+}
+
+.shareStatus {
+  position: absolute;
+  left: 3rem;
+  width: max-content;
+  color: var(--success);
+  font-size: 0.7rem;
+  font-weight: 750;
+}
+
+.pullQuote {
+  margin: 2.2em 0 !important;
+  border-block: 1px solid var(--cyan-accessible);
+  padding-block: 1.5rem;
+  color: var(--brand);
+}
+
+.pullQuote blockquote {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font-size: clamp(1.6rem, 3vw, 2.35rem);
+  font-weight: 550;
+  line-height: 1.15;
+}
+
+.pullQuote figcaption {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 750;
+}
+
+.factBox,
+.sourceNote,
+.inlineRelated,
+.unsupportedBlock {
+  margin: 2em 0 !important;
+  border-left: 4px solid var(--cyan-accessible);
+  background: var(--cyan-soft);
+  padding: 1.25rem;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.9rem;
+}
+
+.factBox h2,
+.sourceNote h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.15rem;
+}
+
+.factBox ul,
+.sourceNote ul {
+  margin: 0;
+}
+
+.factBox li + li {
+  margin-top: 0.45rem;
+}
+
+.sourceNote {
+  border-left-color: var(--brand);
+  background: var(--paper-alt);
+}
+
+.inlineRelated {
+  display: grid;
+  gap: 0.55rem;
+  border-left-color: var(--brand);
+  background: var(--paper-alt);
+}
+
+.inlineRelated strong {
+  color: var(--brand);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.inlineRelated a {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+.bodyImage {
+  width: min(980px, calc(100vw - 2rem));
+  margin: 2.2em 50% !important;
+  transform: translateX(-50%);
+}
+
+.bodyImage figure {
+  aspect-ratio: 16 / 9;
+}
+
+.bodyImage > p {
+  margin: 0.65rem 0 0;
+  color: var(--muted);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
+.bodyImage > p span {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.authorCard {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 1.25rem;
+  border-block: 1px solid var(--line);
+  padding-block: 1.5rem;
+}
+
+.authorImage {
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.authorCard span {
+  color: var(--cyan-accessible);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.authorCard h2 {
+  margin: 0.25rem 0 0.45rem;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.55rem;
+}
+
+.authorCard p {
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.authorCard div > a:last-child,
+.comments > a {
+  color: var(--cyan-accessible);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-transform: uppercase;
+}
+
+.comments {
+  border-top: 5px solid var(--brand);
+  background: var(--paper-alt);
+  padding: 1.5rem;
+}
+
+.comments h2 {
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.8rem;
+}
+
+.comments p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+  .shareToolbar {
+    position: static;
+    width: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .nativeShare {
+    display: inline-flex !important;
+    width: auto !important;
+    border-radius: 2px !important;
+    gap: 0.4rem;
+    padding-inline: 0.8rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .shareToolbar button:nth-of-type(n + 4),
+  .shareToolbar > a {
+    display: none;
+  }
+
+  .authorCard {
+    grid-template-columns: 72px 1fr;
+  }
+}

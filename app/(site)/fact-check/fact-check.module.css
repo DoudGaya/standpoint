@@ -1,0 +1,221 @@
+.factHeader {
+  border-bottom: 1px solid #e8b7c3;
+  background: #fff3f6;
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.factHeader h1 {
+  margin-top: 0.75rem;
+}
+
+.factHeader p,
+.factDetailHeader p {
+  max-width: 62ch;
+  color: var(--muted);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.15rem;
+  line-height: 1.55;
+}
+
+.factHeader a {
+  color: var(--danger);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-transform: uppercase;
+}
+
+.factGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.factGrid article {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 2rem;
+}
+
+.factGrid article figure {
+  aspect-ratio: 16 / 9;
+}
+
+.factGrid article > div {
+  padding-top: 1rem;
+}
+
+.factGrid article span,
+.verdict {
+  display: inline-flex;
+  border: 2px solid var(--danger);
+  color: var(--danger);
+  padding: 0.35rem 0.55rem;
+  font-size: 0.67rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.factGrid h2 {
+  margin: 0.75rem 0;
+  color: var(--brand);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.7rem, 3vw, 2.7rem);
+  line-height: 1;
+}
+
+.factGrid p {
+  color: var(--muted);
+  font-family: var(--font-serif), Georgia, serif;
+  line-height: 1.5;
+}
+
+.factGrid small {
+  color: var(--muted);
+  font-size: 0.66rem;
+}
+
+.factDetailHeader {
+  background: var(--paper-alt);
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.factTitleGrid {
+  display: grid;
+  grid-template-columns: 1fr 190px;
+  gap: 3rem;
+  align-items: end;
+  margin-top: 0.75rem;
+}
+
+.factTitleGrid h1 {
+  max-width: 18ch;
+}
+
+.factDetailHeader small {
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.factDetailHeader small a {
+  color: var(--cyan-accessible);
+  font-weight: 750;
+}
+
+.verdict {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.verdict span {
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+}
+
+.verdict strong {
+  margin-top: 0.5rem;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 2rem;
+  line-height: 1;
+  text-transform: capitalize;
+}
+
+.factHero {
+  margin-top: -2rem;
+}
+
+.factHero > figure {
+  aspect-ratio: 16 / 7;
+  border: 8px solid var(--paper);
+}
+
+.factBody {
+  display: grid;
+  gap: 2rem;
+}
+
+.factBody section h2 {
+  margin: 0 0 0.65rem;
+  color: var(--brand);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 2rem;
+}
+
+.factBody section > p {
+  margin: 0;
+  color: #29262d;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.12rem;
+  line-height: 1.7;
+}
+
+.claimBox {
+  border-top: 5px solid var(--danger);
+  background: #fff3f6;
+  padding: 1.5rem;
+}
+
+.claimBox > span {
+  color: var(--danger);
+  font-size: 0.67rem;
+  font-weight: 850;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.claimBox blockquote {
+  margin: 0.75rem 0;
+  color: var(--brand);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.45rem, 3vw, 2.2rem);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.claimBox p {
+  color: var(--muted) !important;
+  font-family: var(--font-sans), system-ui, sans-serif !important;
+  font-size: 0.7rem !important;
+}
+
+.factSources {
+  border-top: 4px solid var(--brand);
+  background: var(--paper-alt);
+  padding: 1.25rem;
+}
+
+.factSources ul {
+  margin: 0;
+}
+
+.factSources a {
+  color: var(--cyan-accessible);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.factCredits {
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.factCredits a {
+  color: var(--cyan-accessible);
+  font-weight: 750;
+}
+
+@media (max-width: 700px) {
+  .factGrid,
+  .factTitleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .factHero {
+    width: 100%;
+  }
+}

@@ -1,0 +1,317 @@
+.mediaHeader,
+.audioHeader {
+  background: var(--brand-deep);
+  color: white;
+  padding-block: clamp(3rem, 8vw, 7rem);
+}
+
+.audioHeader {
+  background: var(--brand);
+}
+
+.mediaHeader h1,
+.audioHeader h1 {
+  margin-top: 0.75rem;
+}
+
+.mediaHeader p,
+.audioHeader p,
+.mediaDetail header > p,
+.showHeader p,
+.episodeDetail > p {
+  max-width: 62ch;
+  color: #d8d1e6;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.15rem;
+  line-height: 1.55;
+}
+
+.videoListing {
+  display: grid;
+  gap: 3rem;
+}
+
+.videoListingLead {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.imageLink {
+  position: relative;
+  display: block;
+}
+
+.imageLink figure {
+  aspect-ratio: 16 / 9;
+}
+
+.imageLink > span {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: inline-flex;
+  width: 56px;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+  background: var(--cyan);
+  color: var(--brand);
+}
+
+.videoListingLead > div > p:first-child,
+.videoCards article > p {
+  margin: 0 0 0.5rem;
+  color: var(--cyan-accessible);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.videoListingLead h2,
+.videoCards h2 {
+  margin: 0;
+  color: var(--brand);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1;
+}
+
+.videoListingLead > div > p:last-child,
+.videoCards article > p {
+  color: var(--muted);
+  font-family: var(--font-serif), Georgia, serif;
+  line-height: 1.5;
+}
+
+.videoCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem 1.5rem;
+}
+
+.videoCards .imageLink > span {
+  width: 44px;
+  height: 44px;
+}
+
+.videoCards h2 {
+  font-size: 1.45rem;
+}
+
+.mediaDetail {
+  background: var(--brand-deep);
+  color: white;
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+
+.mediaDetail header h1 {
+  max-width: 20ch;
+  margin-top: 0.75rem;
+}
+
+.mediaDetail header small,
+.showHeader small,
+.episodeDetail small {
+  color: #bdb7cc;
+  font-size: 0.7rem;
+}
+
+.playerWrap {
+  margin-top: 2rem;
+}
+
+.mediaDetailsBody {
+  color: white;
+}
+
+.transcriptNotice {
+  border-left: 4px solid var(--cyan);
+  background: rgb(255 255 255 / 0.08);
+  padding: 1rem;
+  color: #d8d1e6;
+  line-height: 1.5;
+}
+
+.liveWatch {
+  min-height: 75vh;
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.liveWatch h1 {
+  margin-top: 0.75rem;
+}
+
+.liveWatch > div > p {
+  color: #d8d1e6;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.15rem;
+}
+
+.liveWatch > div > div:last-child {
+  margin-top: 2rem;
+}
+
+.offAir {
+  display: grid;
+  min-height: 360px;
+  place-content: center;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  background: rgb(255 255 255 / 0.04);
+  padding: 2rem;
+  text-align: center;
+}
+
+.showGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.showGrid article figure {
+  aspect-ratio: 1;
+}
+
+.showGrid article > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  color: var(--cyan-accessible);
+  font-size: 0.67rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.showGrid h2 {
+  margin: 0.5rem 0;
+  color: var(--brand);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.showGrid p {
+  color: var(--muted);
+  font-family: var(--font-serif), Georgia, serif;
+  line-height: 1.5;
+}
+
+.showGrid small {
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.showHeader {
+  background: var(--paper-alt);
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.showHeaderGrid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: center;
+}
+
+.showHeaderGrid figure {
+  aspect-ratio: 1;
+}
+
+.showHeader h1 {
+  margin-top: 0.75rem;
+}
+
+.showHeader p {
+  color: var(--muted);
+}
+
+.showHeader small a {
+  color: var(--cyan-accessible);
+  text-decoration: underline;
+}
+
+.episodeList {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.episodeList article {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1.5rem;
+}
+
+.episodeList article > span {
+  color: var(--cyan-accessible);
+  font-size: 0.67rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.episodeList h2 {
+  margin: 0.4rem 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1.05;
+}
+
+.episodeList p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.episodeDetail > h1 {
+  max-width: 18ch;
+  margin-top: 0.75rem;
+}
+
+.episodeDetail > p {
+  color: var(--muted);
+}
+
+.episodeDetail audio {
+  width: 100%;
+  margin-block: 2rem;
+}
+
+.episodeDetail section {
+  border-top: 4px solid var(--brand);
+  background: var(--paper-alt);
+  padding: 1.5rem;
+}
+
+.episodeDetail section h2 {
+  margin-top: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 2rem;
+}
+
+.episodeDetail section p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+@media (max-width: 900px) {
+  .videoListingLead,
+  .showHeaderGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .showHeaderGrid figure {
+    max-width: 320px;
+  }
+
+  .videoCards,
+  .showGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .videoCards,
+  .showGrid {
+    grid-template-columns: 1fr;
+  }
+}
