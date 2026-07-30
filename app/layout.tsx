@@ -21,6 +21,7 @@ const newsreader = localFont({
   weight: "400 700",
 });
 
+
 export const metadata: Metadata = {
   metadataBase: getSiteUrl(),
   title: {
