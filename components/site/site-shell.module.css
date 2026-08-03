@@ -512,7 +512,7 @@
 
 :global(.brand-mark) {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   color: var(--brand);
   font-family: var(--font-serif), Georgia, serif;
   font-weight: 700;

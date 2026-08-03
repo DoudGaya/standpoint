@@ -25,7 +25,7 @@ const newsreader = localFont({
 export const metadata: Metadata = {
   metadataBase: getSiteUrl(),
   title: {
-    default: "GlobHub Media — Global journalism with context",
+    default: "GlobHub Media - Global journalism with context",
     template: "%s | GlobHub Media",
   },
   description:
