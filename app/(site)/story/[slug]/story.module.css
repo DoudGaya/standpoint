@@ -11,11 +11,11 @@
 }
 
 .headerGrid h1 {
-  max-width: 18ch;
+  max-width: 30ch;
   margin: 0.65rem 0 0;
   color: var(--brand);
   font-family: var(--font-serif), Georgia, serif;
-  font-size: clamp(2.7rem, 6.8vw, 6.5rem);
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
   font-weight: 650;
   letter-spacing: -0.05em;
   line-height: 0.92;

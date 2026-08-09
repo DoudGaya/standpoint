@@ -160,9 +160,8 @@
 }
 
 .bodyImage {
-  width: min(980px, calc(100vw - 2rem));
-  margin: 2.2em 50% !important;
-  transform: translateX(-50%);
+  width: 100%;
+  margin: 2.2em 0 !important;
 }
 
 .bodyImage figure {
