@@ -142,7 +142,7 @@ export function HeaderNavigation({ navigation }: { navigation: Navigation }) {
 
       <nav className={styles.primaryNav} aria-label="Primary" ref={navRef}>
         <div className={`container ${styles.primaryNavInner}`}>
-          {navigation.categories
+          {(navigation?.categories || [])
             .filter((category) => category.showInNavigation !== false)
             .map((category) => {
               const isOpen = openCategory === category.slug;
@@ -219,7 +219,7 @@ export function HeaderNavigation({ navigation }: { navigation: Navigation }) {
             </Link>
           </div>
           <nav className={styles.mobileNav} aria-label="Mobile primary">
-            {navigation.categories
+            {(navigation?.categories || [])
               .filter((category) => category.showInNavigation !== false)
               .map((category) => {
                 const expanded = mobileCategory === category.slug;

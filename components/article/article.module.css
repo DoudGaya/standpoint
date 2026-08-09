@@ -167,6 +167,13 @@
 
 .bodyImage figure {
   aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.bodyImage figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .bodyImage > p {
@@ -192,7 +199,15 @@
 
 .authorImage {
   aspect-ratio: 1;
+  overflow: hidden;
   border-radius: 50%;
+}
+
+.authorImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .authorCard span {

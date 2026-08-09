@@ -46,7 +46,7 @@ export const STORIES_BY_TOPIC_QUERY = defineQuery(`
   *[
     _type == "story" &&
     workflow.status in ["published", "updated", "corrected"] &&
-    $slug in topics[]->slug.current
+    ($slug in topics[]->slug.current || $slug in topics)
   ] | order(coalesce(publishedAt, _createdAt) desc) [$offset...$end]
   ${STORY_CARD_PROJECTION}
 `);
@@ -55,7 +55,7 @@ export const STORIES_BY_TAG_QUERY = defineQuery(`
   *[
     _type == "story" &&
     workflow.status in ["published", "updated", "corrected"] &&
-    $slug in tags[]->slug.current
+    ($slug in tags[]->slug.current || $slug in tags)
   ] | order(coalesce(publishedAt, _createdAt) desc) [$offset...$end]
   ${STORY_CARD_PROJECTION}
 `);

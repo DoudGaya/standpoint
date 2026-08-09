@@ -15,7 +15,7 @@ export const PERSON_PROJECTION = `{
   "title": professionalTitle,
   roles,
   shortBio,
-  biography,
+  "biography": coalesce(pt::text(biography), biography),
   "image": profileImage ${IMAGE_PROJECTION},
   location,
   expertise,

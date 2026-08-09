@@ -48,6 +48,13 @@ export async function POST(request: Request) {
     if (body._type === "video") paths.add(`/video/${slug}`);
     if (body._type === "liveEvent") paths.add(`/live/${slug}`);
     if (body._type === "factCheck") paths.add(`/fact-check/${slug}`);
+    if (body._type === "person") paths.add(`/author/${slug}`);
+    if (body._type === "category") paths.add(`/category/${slug}`);
+    if (body._type === "topic") paths.add(`/topic/${slug}`);
+    if (body._type === "tag") paths.add(`/tag/${slug}`);
+    if (body._type === "podcastShow") paths.add(`/podcasts/${slug}`);
+    if (body._type === "newsletter") paths.add(`/newsletters/${slug}`);
+    if (body._type === "event") paths.add(`/events/${slug}`);
   }
   if (
     body.categorySlug &&
@@ -59,6 +66,7 @@ export async function POST(request: Request) {
   if (body._type === "category" || body._type === "navigation") tags.add("navigation");
   if (body._type === "homepage") tags.add("homepage");
   if (body._type === "siteSettings") tags.add("site-settings");
+  if (body._type === "podcastEpisode" || body._type === "podcastShow") tags.add("podcast");
 
   for (const tag of tags) revalidateTag(tag, "max");
   for (const path of paths) revalidatePath(path);

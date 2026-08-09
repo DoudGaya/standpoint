@@ -18,10 +18,10 @@ export function StaticContentPage({ page }: { page: StaticPageDefinition }) {
             <p>{page.reviewNotice}</p>
           </aside>
         ) : null}
-        {page.sections.map((section) => (
+        {(page?.sections || []).map((section) => (
           <section key={section.heading}>
             <h2>{section.heading}</h2>
-            {section.paragraphs.map((paragraph) => (
+            {(section.paragraphs || []).map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
             {section.bullets?.length ? (

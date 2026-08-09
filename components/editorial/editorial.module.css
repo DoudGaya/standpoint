@@ -1,13 +1,13 @@
 .imageFigure {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
   margin: 0;
   background: #dedbe4;
+  line-height: 0;
 }
 
 .image {
-  object-fit: cover;
+  display: block;
+  width: 100%;
+  height: auto;
   transition: transform 220ms ease;
 }
 
@@ -25,8 +25,16 @@
   transform: scale(1.018);
 }
 
+/* Card image: fixed aspect-ratio container that clips the responsive image */
 .cardImage {
   aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.cardImage .image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .mediaIcon {
@@ -161,6 +169,13 @@
 
 .compactImage {
   aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.compactImage .image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .leadPackage {

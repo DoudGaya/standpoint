@@ -45,6 +45,13 @@
 
 .imageLink figure {
   aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.imageLink figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .imageLink > span {
@@ -172,6 +179,13 @@
 
 .showGrid article figure {
   aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.showGrid article figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .showGrid article > span {
@@ -218,6 +232,13 @@
 
 .showHeaderGrid figure {
   aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.showHeaderGrid figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .showHeader h1 {

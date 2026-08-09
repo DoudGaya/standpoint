@@ -8,22 +8,22 @@ import { BrandMark } from "./BrandMark";
 import styles from "./site-shell.module.css";
 
 export function SiteFooter({
-  categories,
-  newsletters,
+  categories = [],
+  newsletters = [],
   settings,
 }: {
-  categories: Category[];
-  newsletters: Newsletter[];
-  settings: SiteSettings;
+  categories?: Category[];
+  newsletters?: Newsletter[];
+  settings?: SiteSettings;
 }) {
   return (
     <footer className={`${styles.footer} no-print`}>
       <div className={`container ${styles.footerTop}`}>
         <div className={styles.footerBrand}>
           <BrandMark inverse />
-          <p>{settings.description}</p>
+          <p>{settings?.description}</p>
           <div className={styles.footerSocial}>
-            {settings.socialLinks.map((link) => (
+            {(settings?.socialLinks || []).map((link) => (
               <a href={link.url} key={link.label} rel="me">
                 {link.label}
               </a>
@@ -32,7 +32,7 @@ export function SiteFooter({
         </div>
         <div className={styles.footerColumn}>
           <h2>Sections</h2>
-          {categories
+          {(categories || [])
             .filter((category) => category.showInFooter !== false)
             .slice(0, 8)
             .map((category) => (
@@ -50,7 +50,7 @@ export function SiteFooter({
           <Link href="/fact-check">Fact checks</Link>
           <Link href="/events">Events</Link>
           <Link href="/newsletters">Newsletters</Link>
-          {newsletters.slice(0, 1).map((item) => (
+          {(newsletters || []).slice(0, 1).map((item) => (
             <Link href={`/newsletters/${item.slug}`} key={item.id}>
               {item.name}
             </Link>

@@ -16,7 +16,14 @@ export async function fetchSanity<T>(
   if (!sanityEnv.configured) return null;
 
   try {
-    const { isEnabled } = await draftMode();
+    let isEnabled = false;
+    try {
+      const draft = await draftMode();
+      isEnabled = draft.isEnabled;
+    } catch {
+      isEnabled = false;
+    }
+
     const { data } = await sanityFetch({
       query,
       params,

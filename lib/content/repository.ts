@@ -187,6 +187,7 @@ export async function getStoriesByAuthor(slug: string, page = 1) {
 
 export async function getStoriesByTopic(slug: string, page = 1) {
   const offset = (normalizePage(page) - 1) * PAGE_SIZE;
+  const normalizedSlug = slug.toLowerCase();
   return (
     (await fetchSanity<Story[]>(
       STORIES_BY_TOPIC_QUERY,
@@ -195,9 +196,14 @@ export async function getStoriesByTopic(slug: string, page = 1) {
     )) ||
     paginate(
       stories.filter((story) =>
-        story.topics.some(
-          (topic) => topic.toLocaleLowerCase().replaceAll(" ", "-") === slug
-        )
+        story.topics.some((topic) => {
+          const t = topic.toLowerCase();
+          return (
+            t === normalizedSlug ||
+            t.replaceAll(" ", "-") === normalizedSlug ||
+            t.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") === normalizedSlug
+          );
+        })
       ),
       page
     )
@@ -206,6 +212,7 @@ export async function getStoriesByTopic(slug: string, page = 1) {
 
 export async function getStoriesByTag(slug: string, page = 1) {
   const offset = (normalizePage(page) - 1) * PAGE_SIZE;
+  const normalizedSlug = slug.toLowerCase();
   return (
     (await fetchSanity<Story[]>(
       STORIES_BY_TAG_QUERY,
@@ -214,9 +221,14 @@ export async function getStoriesByTag(slug: string, page = 1) {
     )) ||
     paginate(
       stories.filter((story) =>
-        story.tags.some(
-          (tag) => tag.toLocaleLowerCase().replaceAll(" ", "-") === slug
-        )
+        story.tags.some((tag) => {
+          const t = tag.toLowerCase();
+          return (
+            t === normalizedSlug ||
+            t.replaceAll(" ", "-") === normalizedSlug ||
+            t.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") === normalizedSlug
+          );
+        })
       ),
       page
     )

@@ -12,12 +12,12 @@ import styles from "./site-shell.module.css";
 
 export function SiteHeader({
   navigation,
-  breakingItems,
+  breakingItems = [],
   settings,
 }: {
-  navigation: Navigation;
-  breakingItems: BreakingItem[];
-  settings: SiteSettings;
+  navigation?: Navigation;
+  breakingItems?: BreakingItem[];
+  settings?: SiteSettings;
 }) {
   return (
     <header className={`${styles.siteHeader} no-print`}>
@@ -27,7 +27,7 @@ export function SiteHeader({
       <div className={styles.utilityBar}>
         <div className={`container ${styles.utilityInner}`}>
           <div className={styles.utilityMeta}>
-            {navigation.showDate ? (
+            {navigation?.showDate ? (
               <time dateTime={new Date().toISOString()}>
                 {formatDate(new Date(), {
                   weekday: "long",
@@ -37,8 +37,8 @@ export function SiteHeader({
                 })}
               </time>
             ) : null}
-            <span>{settings.edition} edition</span>
-            <span>{navigation.language}</span>
+            {settings?.edition ? <span>{settings.edition} edition</span> : null}
+            {navigation?.language ? <span>{navigation.language}</span> : null}
           </div>
           <div className={styles.utilityLinks}>
             <Link href="/watch-live">
@@ -50,7 +50,7 @@ export function SiteHeader({
             <Link href="/search" aria-label="Search">
               <Search size={14} /> Search
             </Link>
-            {navigation.showAccount ? (
+            {navigation?.showAccount ? (
               <span title="Reader accounts are not enabled in this release">
                 <UserRound size={14} /> Account
               </span>
@@ -58,8 +58,8 @@ export function SiteHeader({
           </div>
         </div>
       </div>
-      <HeaderNavigation navigation={navigation} />
-      <BreakingTicker items={breakingItems} />
+      <HeaderNavigation navigation={navigation || { utilityLinks: [], categories: [], edition: "Global", language: "en", showDate: true, showLive: true, showNewsletter: true, showAccount: false }} />
+      <BreakingTicker items={breakingItems || []} />
     </header>
   );
 }

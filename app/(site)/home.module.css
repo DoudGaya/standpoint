@@ -193,10 +193,24 @@
 
 .videoLead .videoImage figure {
   aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.videoLead .videoImage figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .videoCard .videoImage figure {
   aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.videoCard .videoImage figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .videoImage {

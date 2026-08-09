@@ -54,7 +54,11 @@ export default async function AuthorPage({ params }: Props) {
             <span className="eyebrow">GlobHub newsroom</span>
             <h1 className="page-title">{person.name}</h1>
             <p className={styles.profileTitle}>{person.title}</p>
-            <p className={styles.profileBio}>{person.biography || person.shortBio}</p>
+            <p className={styles.profileBio}>
+              {typeof person.biography === "string" && person.biography
+                ? person.biography
+                : person.shortBio}
+            </p>
             {person.location ? (
               <p className={styles.profileLocation}>
                 <MapPin size={15} /> {person.location}

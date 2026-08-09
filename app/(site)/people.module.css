@@ -59,6 +59,14 @@
 
 .profileImage {
   aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.profileImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .authorStories {
@@ -99,6 +107,14 @@
 
 .teamGrid article figure {
   aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.teamGrid article figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .teamGrid article > span,

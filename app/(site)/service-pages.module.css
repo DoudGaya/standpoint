@@ -30,6 +30,13 @@
 
 .productGrid article figure {
   aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.productGrid article figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .productGrid article > span {
@@ -74,6 +81,13 @@
 
 .newsletterDetail > figure {
   aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.newsletterDetail > figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .newsletterDetail h1 {
@@ -110,6 +124,13 @@
 
 .eventGrid article figure {
   aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.eventGrid article figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .eventGrid article > div > span,
@@ -165,6 +186,13 @@
 
 .eventDetailGrid > figure {
   aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.eventDetailGrid > figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .eventDetailGrid aside {
