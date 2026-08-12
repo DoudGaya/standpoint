@@ -36,7 +36,8 @@ export async function fetchSanity<T>(
   } catch (error) {
     console.error(
       "Sanity content fetch failed.",
-      error instanceof Error ? error.message : "Unknown CMS error"
+      error instanceof Error ? error.message : "Unknown CMS error",
+      error instanceof Error && error.cause ? error.cause : ""
     );
     return null;
   }
