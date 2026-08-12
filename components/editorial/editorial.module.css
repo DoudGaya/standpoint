@@ -353,6 +353,86 @@
   text-align: center;
 }
 
+.adSlotActive {
+  background: var(--surface, #ffffff);
+  border: 1px solid var(--line, #e2e8f0);
+  padding: 0.75rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.adHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  font-size: 0.61rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted, #64748b);
+}
+
+.advertiserName {
+  font-weight: 600;
+  text-transform: none;
+}
+
+.adLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+.adLink:hover {
+  opacity: 0.92;
+}
+
+.desktopCreative {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.mobileCreative {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.adTextCreative {
+  padding: 1.25rem 1rem;
+  background: #f8fafc;
+  border: 1px dashed var(--line, #cbd5e1);
+  border-radius: 4px;
+  text-align: center;
+}
+
+.adTextCreative h4 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink, #0f172a);
+}
+
+.adTextCreative p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted, #64748b);
+}
+
 .adSlot > span {
   font-size: 0.61rem;
   font-weight: 800;

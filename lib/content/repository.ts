@@ -43,7 +43,9 @@ import {
   STORY_SLUGS_QUERY,
 } from "@/sanity/queries/stories";
 import {
+  ACTIVE_AD_CAMPAIGN_QUERY,
   BREAKING_NEWS_QUERY,
+  FALLBACK_AD_CAMPAIGN_QUERY,
   HOMEPAGE_QUERY,
   NAVIGATION_QUERY,
   PODCAST_SHOWS_QUERY,
@@ -363,3 +365,56 @@ export async function getNewsletters() {
 export async function getEvents() {
   return events;
 }
+
+export type AdCampaignPlacement = {
+  _id: string;
+  title?: string;
+  key?: string;
+  location?: string;
+  desktopSize?: string;
+  mobileSize?: string;
+};
+
+export type AdCampaignData = {
+  _id: string;
+  title: string;
+  kind?: string;
+  destinationUrl: string;
+  trackingParameters?: string;
+  desktopCreative?: {
+    url: string;
+    width?: number;
+    height?: number;
+    alt?: string;
+  };
+  mobileCreative?: {
+    url: string;
+    width?: number;
+    height?: number;
+    alt?: string;
+  };
+  advertiser?: {
+    name?: string;
+    website?: string;
+  };
+  placements?: AdCampaignPlacement[];
+};
+
+export async function getActiveAdCampaign(
+  placement: string
+): Promise<AdCampaignData | null> {
+  const ad = await fetchSanity<AdCampaignData>(
+    ACTIVE_AD_CAMPAIGN_QUERY,
+    { placement },
+    { tags: ["adCampaign", "adPlacement"], revalidate: 60 }
+  );
+
+  if (ad) return ad;
+
+  return await fetchSanity<AdCampaignData>(
+    FALLBACK_AD_CAMPAIGN_QUERY,
+    {},
+    { tags: ["adCampaign"], revalidate: 60 }
+  );
+}
+

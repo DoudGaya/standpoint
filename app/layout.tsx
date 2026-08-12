@@ -89,9 +89,9 @@ export default async function RootLayout({
     <html lang="en" className={`${manrope.variable} ${newsreader.variable}`}>
       <body>
         {children}
-        {sanityEnv.configured ? (
+        {sanityEnv.configured && isDraftMode ? (
           <SanityLive
-            includeDrafts={isDraftMode && Boolean(sanityEnv.readToken)}
+            includeDrafts={Boolean(sanityEnv.readToken)}
           />
         ) : null}
         {isDraftMode && sanityEnv.configured ? <VisualEditing /> : null}

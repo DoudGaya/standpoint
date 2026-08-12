@@ -110,3 +110,70 @@ export const PODCAST_SHOWS_QUERY = defineQuery(`
     externalUrl
   }
 `);
+
+export const ACTIVE_AD_CAMPAIGN_QUERY = defineQuery(`
+  *[_type == "adCampaign" &&
+    active != false &&
+    (startsAt == null || startsAt <= now()) &&
+    (endsAt == null || endsAt >= now()) &&
+    (
+      !defined($placement) || $placement == "" ||
+      count(placements[]->[
+        key.current == $placement ||
+        lower(location) == lower($placement) ||
+        lower(title) == lower($placement) ||
+        slug.current == $placement
+      ]) > 0
+    )
+  ] | order(coalesce(priority, 0) desc, _createdAt desc)[0] {
+    _id,
+    title,
+    kind,
+    destinationUrl,
+    trackingParameters,
+    "desktopCreative": desktopCreative ${IMAGE_PROJECTION},
+    "mobileCreative": mobileCreative ${IMAGE_PROJECTION},
+    "advertiser": advertiser->{
+      name,
+      website
+    },
+    "placements": placements[]->{
+      _id,
+      title,
+      "key": key.current,
+      location,
+      desktopSize,
+      mobileSize
+    }
+  }
+`);
+
+export const FALLBACK_AD_CAMPAIGN_QUERY = defineQuery(`
+  *[_type == "adCampaign" &&
+    active != false &&
+    (startsAt == null || startsAt <= now()) &&
+    (endsAt == null || endsAt >= now())
+  ] | order(coalesce(priority, 0) desc, _createdAt desc)[0] {
+    _id,
+    title,
+    kind,
+    destinationUrl,
+    trackingParameters,
+    "desktopCreative": desktopCreative ${IMAGE_PROJECTION},
+    "mobileCreative": mobileCreative ${IMAGE_PROJECTION},
+    "advertiser": advertiser->{
+      name,
+      website
+    },
+    "placements": placements[]->{
+      _id,
+      title,
+      "key": key.current,
+      location,
+      desktopSize,
+      mobileSize
+    }
+  }
+`);
+
+
