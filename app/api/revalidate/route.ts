@@ -44,7 +44,11 @@ export async function POST(request: Request) {
   const slug = typeof body.slug === "string" ? body.slug : body.slug?.current;
   if (slug && /^[a-z0-9][a-z0-9-]{0,95}$/.test(slug)) {
     tags.add(`${body._type}:${slug}`);
-    if (body._type === "story") paths.add(`/story/${slug}`);
+    if (body._type === "story") {
+      paths.add(`/story/${slug}`);
+      paths.add("/latest");
+      paths.add("/news");
+    }
     if (body._type === "video") paths.add(`/video/${slug}`);
     if (body._type === "liveEvent") paths.add(`/live/${slug}`);
     if (body._type === "factCheck") paths.add(`/fact-check/${slug}`);
@@ -68,7 +72,7 @@ export async function POST(request: Request) {
   if (body._type === "siteSettings") tags.add("site-settings");
   if (body._type === "podcastEpisode" || body._type === "podcastShow") tags.add("podcast");
 
-  for (const tag of tags) revalidateTag(tag, "max");
+  for (const tag of tags) revalidateTag(tag, { expire: 0 });
   for (const path of paths) revalidatePath(path);
 
   return NextResponse.json({

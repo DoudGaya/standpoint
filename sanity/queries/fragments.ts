@@ -90,6 +90,6 @@ export const STORY_DETAIL_PROJECTION = `{
   correctionNote,
   editorsNote,
   disclosure,
-  sponsoredBy,
+  "sponsoredBy": coalesce(sponsoredBy->name, sponsoredBy.name, sponsoredBy),
   canonicalUrl
 }`;

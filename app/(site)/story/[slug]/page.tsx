@@ -36,11 +36,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!story) return {};
 
   const canonical = story.canonicalUrl || absoluteUrl(`/story/${story.slug}`);
+  const categoryTitle = story.primaryCategory?.title || "News";
+  const authors = story.authors || [];
+  const tags = story.tags || [];
+  const topics = story.topics || [];
+
   return {
     title: story.seoTitle || story.headline,
     description: story.seoDescription || story.standfirst,
     alternates: { canonical },
-    authors: story.authors.map((author) => ({ name: author.name })),
+    authors: authors.map((author) => ({ name: author.name })),
     openGraph: {
       type: "article",
       title: story.headline,
@@ -48,11 +53,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: canonical,
       publishedTime: story.publishedAt,
       modifiedTime: story.updatedAt,
-      authors: story.authors.map((author) =>
+      authors: authors.map((author) =>
         absoluteUrl(`/author/${author.slug}`)
       ),
-      section: story.primaryCategory.title,
-      tags: [...story.tags, ...story.topics],
+      section: categoryTitle,
+      tags: [...tags, ...topics],
       images: story.hero?.url
         ? [{ url: story.hero.url, alt: story.hero.alt }]
         : undefined,
@@ -75,6 +80,13 @@ export default async function StoryPage({ params }: Props) {
   ]);
   if (!story) notFound();
 
+  const primaryCategoryTitle = story.primaryCategory?.title || "News";
+  const primaryCategorySlug = story.primaryCategory?.slug || "general";
+  const storyTypeLabel = (story.type || "story").replaceAll("-", " ");
+  const authors = story.authors || [];
+  const contributors = (story.contributors || []).filter((c) => Boolean(c?.person));
+  const tags = story.tags || [];
+
   const related = (story.relatedStorySlugs || [])
     .map((relatedSlug) => allStories.find((item) => item.slug === relatedSlug))
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
@@ -83,7 +95,7 @@ export default async function StoryPage({ params }: Props) {
     ...allStories.filter(
       (item) =>
         item.id !== story.id &&
-        item.primaryCategory.slug === story.primaryCategory.slug &&
+        item.primaryCategory?.slug === primaryCategorySlug &&
         !related.some((relatedStory) => relatedStory.id === item.id)
     ),
   ].slice(0, 3);
@@ -96,10 +108,10 @@ export default async function StoryPage({ params }: Props) {
           items={[
             { label: "Home", href: "/" },
             {
-              label: story.primaryCategory.title,
-              href: `/category/${story.primaryCategory.slug}`,
+              label: primaryCategoryTitle,
+              href: `/category/${primaryCategorySlug}`,
             },
-            { label: story.type.replaceAll("-", " ") },
+            { label: storyTypeLabel },
           ]}
         />
         <div className={styles.headerGrid}>
@@ -110,16 +122,16 @@ export default async function StoryPage({ params }: Props) {
             {story.deck ? <p className={styles.deck}>{story.deck}</p> : null}
             <div className={styles.byline}>
               <span>By</span>
-              {story.authors.map((author, index) => (
-                <span key={author.id}>
+              {authors.map((author, index) => (
+                <span key={author.id || index}>
                   <Link href={`/author/${author.slug}`}>{author.name}</Link>
-                  {index < story.authors.length - 1 ? "," : ""}
+                  {index < authors.length - 1 ? "," : ""}
                 </span>
               ))}
             </div>
-            {story.contributors?.length ? (
+            {contributors.length ? (
               <p className={styles.contributors}>
-                {story.contributors.map(({ person, role }) => (
+                {contributors.map(({ person, role }) => (
                   <span key={`${person.id}-${role}`}>
                     {role}: <Link href={`/author/${person.slug}`}>{person.name}</Link>
                   </span>
@@ -135,19 +147,19 @@ export default async function StoryPage({ params }: Props) {
                   Updated {formatDateTime(story.updatedAt)}
                 </time>
               ) : null}
-              <span><Clock size={13} /> {story.readingTime} min read</span>
+              <span><Clock size={13} /> {story.readingTime || 3} min read</span>
             </div>
           </div>
           <div className={styles.typeMarker}>
-            <span>{story.type.replaceAll("-", " ")}</span>
-            <small>{story.edition} edition</small>
+            <span>{storyTypeLabel}</span>
+            <small>{story.edition || "Global"} edition</small>
           </div>
         </div>
       </header>
 
       {story.sponsoredBy ? (
         <div className={`container ${styles.sponsoredDisclosure}`}>
-          Paid content · Sponsored by {story.sponsoredBy}. This commercial
+          Paid content · Sponsored by {typeof story.sponsoredBy === "string" ? story.sponsoredBy : (story.sponsoredBy as any)?.name || "Sponsor"}. This commercial
           partnership is clearly separated from independent editorial reporting.
         </div>
       ) : null}
@@ -198,7 +210,7 @@ export default async function StoryPage({ params }: Props) {
             </aside>
           ) : null}
           <div className={styles.tags} aria-label="Story tags">
-            {story.tags.map((tag) => (
+            {tags.map((tag) => (
               <Link
                 href={`/tag/${tag.toLocaleLowerCase().replaceAll(" ", "-")}`}
                 key={tag}
@@ -208,7 +220,7 @@ export default async function StoryPage({ params }: Props) {
             ))}
           </div>
           <div className={styles.authorStack}>
-            {story.authors.map((author) => (
+            {authors.map((author) => (
               <AuthorCard person={author} key={author.id} />
             ))}
           </div>
@@ -223,12 +235,12 @@ export default async function StoryPage({ params }: Props) {
         <aside className={styles.articleRail}>
           <AdSlot placement="article-sidebar" desktopSize="300 × 600" />
           <div className={styles.latestBox}>
-            <strong>Latest from {story.primaryCategory.title}</strong>
+            <strong>Latest from {primaryCategoryTitle}</strong>
             {allStories
               .filter(
                 (item) =>
                   item.id !== story.id &&
-                  item.primaryCategory.slug === story.primaryCategory.slug
+                  item.primaryCategory?.slug === primaryCategorySlug
               )
               .slice(0, 4)
               .map((item) => (

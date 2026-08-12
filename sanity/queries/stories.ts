@@ -7,18 +7,18 @@ import {
 } from "./fragments";
 
 export const STORY_BY_SLUG_QUERY = defineQuery(`
-  *[_type == "story" && slug.current == $slug && workflow.status in ["published", "updated", "corrected"]][0]
+  *[_type == "story" && slug.current == $slug && (!defined(workflow.status) || workflow.status in ["published", "updated", "corrected"])][0]
   ${STORY_DETAIL_PROJECTION}
 `);
 
 export const STORY_LIST_QUERY = defineQuery(`
-  *[_type == "story" && workflow.status in ["published", "updated", "corrected"]]
+  *[_type == "story" && (!defined(workflow.status) || workflow.status in ["published", "updated", "corrected"])]
   | order(coalesce(publishedAt, _createdAt) desc) [$offset...$end]
   ${STORY_CARD_PROJECTION}
 `);
 
 export const STORY_SLUGS_QUERY = defineQuery(`
-  *[_type == "story" && defined(slug.current) && workflow.status in ["published", "updated", "corrected"]] {
+  *[_type == "story" && defined(slug.current) && (!defined(workflow.status) || workflow.status in ["published", "updated", "corrected"])] {
     "slug": slug.current,
     "updatedAt": coalesce(updatedAt, _updatedAt)
   }
@@ -27,8 +27,13 @@ export const STORY_SLUGS_QUERY = defineQuery(`
 export const STORIES_BY_CATEGORY_QUERY = defineQuery(`
   *[
     _type == "story" &&
-    workflow.status in ["published", "updated", "corrected"] &&
-    (primaryCategory->slug.current == $slug || $slug in secondaryCategories[]->slug.current)
+    (!defined(workflow.status) || workflow.status in ["published", "updated", "corrected"]) &&
+    (
+      primaryCategory->slug.current == $slug ||
+      primaryCategory->slug.current == $slug + " " ||
+      lower(primaryCategory->slug.current) == lower($slug) ||
+      $slug in secondaryCategories[]->slug.current
+    )
   ] | order(coalesce(publishedAt, _createdAt) desc) [$offset...$end]
   ${STORY_CARD_PROJECTION}
 `);
@@ -36,7 +41,7 @@ export const STORIES_BY_CATEGORY_QUERY = defineQuery(`
 export const STORIES_BY_AUTHOR_QUERY = defineQuery(`
   *[
     _type == "story" &&
-    workflow.status in ["published", "updated", "corrected"] &&
+    (!defined(workflow.status) || workflow.status in ["published", "updated", "corrected"]) &&
     $slug in authors[]->slug.current
   ] | order(coalesce(publishedAt, _createdAt) desc) [$offset...$end]
   ${STORY_CARD_PROJECTION}
@@ -45,7 +50,7 @@ export const STORIES_BY_AUTHOR_QUERY = defineQuery(`
 export const STORIES_BY_TOPIC_QUERY = defineQuery(`
   *[
     _type == "story" &&
-    workflow.status in ["published", "updated", "corrected"] &&
+    (!defined(workflow.status) || workflow.status in ["published", "updated", "corrected"]) &&
     ($slug in topics[]->slug.current || $slug in topics)
   ] | order(coalesce(publishedAt, _createdAt) desc) [$offset...$end]
   ${STORY_CARD_PROJECTION}
@@ -54,7 +59,7 @@ export const STORIES_BY_TOPIC_QUERY = defineQuery(`
 export const STORIES_BY_TAG_QUERY = defineQuery(`
   *[
     _type == "story" &&
-    workflow.status in ["published", "updated", "corrected"] &&
+    (!defined(workflow.status) || workflow.status in ["published", "updated", "corrected"]) &&
     ($slug in tags[]->slug.current || $slug in tags)
   ] | order(coalesce(publishedAt, _createdAt) desc) [$offset...$end]
   ${STORY_CARD_PROJECTION}
@@ -66,26 +71,26 @@ export const PERSON_BY_SLUG_QUERY = defineQuery(`
 `);
 
 export const PEOPLE_QUERY = defineQuery(`
-  *[_type == "person" && active == true && showAuthorPage == true]
+  *[_type == "person" && active != false && showAuthorPage == true]
   | order(coalesce(displayOrder, 999) asc, fullName asc)
   ${PERSON_PROJECTION}
 `);
 
 export const CATEGORY_BY_SLUG_QUERY = defineQuery(`
-  *[_type == "category" && slug.current == $slug && active == true][0]
+  *[_type == "category" && (slug.current == $slug || slug.current == $slug + " " || lower(slug.current) == lower($slug)) && active != false][0]
   ${CATEGORY_PROJECTION}
 `);
 
 export const CATEGORIES_QUERY = defineQuery(`
-  *[_type == "category" && active == true]
-  | order(navigationOrder asc)
+  *[_type == "category" && active != false]
+  | order(coalesce(navigationOrder, 99) asc)
   ${CATEGORY_PROJECTION}
 `);
 
 export const SEARCH_STORIES_QUERY = defineQuery(`
   *[
     _type == "story" &&
-    workflow.status in ["published", "updated", "corrected"] &&
+    (!defined(workflow.status) || workflow.status in ["published", "updated", "corrected"]) &&
     (
       publicHeadline match $match ||
       summary match $match ||
