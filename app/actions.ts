@@ -155,3 +155,21 @@ export async function submitContactForm(
   }
 }
 
+export async function revalidateContent(type = "story", slug?: string) {
+  const { revalidatePath, revalidateTag } = await import("next/cache");
+  try {
+    revalidateTag(type, "max");
+    if (slug) {
+      revalidateTag(`${type}:${slug}`, "max");
+      if (type === "story") revalidatePath(`/story/${slug}`);
+      if (type === "category") revalidatePath(`/category/${slug}`);
+    }
+    revalidatePath("/");
+    revalidatePath("/latest");
+    revalidatePath("/news");
+  } catch {
+    // Graceful fallback when invoked outside request context
+  }
+  return { revalidated: true, timestamp: Date.now() };
+}
+

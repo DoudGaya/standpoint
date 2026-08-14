@@ -29,10 +29,10 @@ export const STORIES_BY_CATEGORY_QUERY = defineQuery(`
     _type == "story" &&
     (!defined(workflow.status) || workflow.status in ["published", "updated", "corrected"]) &&
     (
-      primaryCategory->slug.current == $slug ||
-      primaryCategory->slug.current == $slug + " " ||
       lower(primaryCategory->slug.current) == lower($slug) ||
-      $slug in secondaryCategories[]->slug.current
+      lower(primaryCategory->parent->slug.current) == lower($slug) ||
+      lower($slug) in secondaryCategories[]->slug.current ||
+      lower($slug) in secondaryCategories[]->parent->slug.current
     )
   ] | order(coalesce(publishedAt, _createdAt) desc) [$offset...$end]
   ${STORY_CARD_PROJECTION}
@@ -77,7 +77,7 @@ export const PEOPLE_QUERY = defineQuery(`
 `);
 
 export const CATEGORY_BY_SLUG_QUERY = defineQuery(`
-  *[_type == "category" && (slug.current == $slug || slug.current == $slug + " " || lower(slug.current) == lower($slug)) && active != false][0]
+  *[_type == "category" && lower(slug.current) == lower($slug) && active != false][0]
   ${CATEGORY_PROJECTION}
 `);
 
@@ -98,7 +98,13 @@ export const SEARCH_STORIES_QUERY = defineQuery(`
       $match in authors[]->fullName ||
       $match in searchKeywords
     ) &&
-    (!defined($category) || primaryCategory->slug.current == $category) &&
+    (
+      !defined($category) ||
+      lower(primaryCategory->slug.current) == lower($category) ||
+      lower(primaryCategory->parent->slug.current) == lower($category) ||
+      lower($category) in secondaryCategories[]->slug.current ||
+      lower($category) in secondaryCategories[]->parent->slug.current
+    ) &&
     (!defined($contentType) || contentType == $contentType) &&
     (!defined($topic) || $topic in topics[]->slug.current) &&
     (!defined($from) || publishedAt >= $from) &&

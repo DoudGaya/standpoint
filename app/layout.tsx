@@ -86,12 +86,12 @@ export default async function RootLayout({
   const { isEnabled: isDraftMode } = await draftMode();
 
   return (
-    <html lang="en" className={`${manrope.variable} ${newsreader.variable}`}>
-      <body>
+    <html lang="en" className={`${manrope.variable} ${newsreader.variable}`} suppressHydrationWarning>
+      <body suppressHydrationWarning>
         {children}
-        {sanityEnv.configured && isDraftMode ? (
+        {sanityEnv.configured ? (
           <SanityLive
-            includeDrafts={Boolean(sanityEnv.readToken)}
+            includeDrafts={Boolean(isDraftMode && sanityEnv.readToken)}
           />
         ) : null}
         {isDraftMode && sanityEnv.configured ? <VisualEditing /> : null}

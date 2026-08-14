@@ -34,6 +34,35 @@ test("revalidation refuses unauthenticated requests", async () => {
   assert.equal(response.status, 401);
 });
 
+test("revalidation accepts valid requests and extracts story category tags", async () => {
+  process.env.SANITY_REVALIDATE_SECRET = "test-secret-123";
+  const response = await revalidate(
+    new Request("http://localhost/api/revalidate", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-sanity-revalidate-secret": "test-secret-123",
+      },
+      body: JSON.stringify({
+        _type: "story",
+        slug: { current: "breaking-news-story" },
+        primaryCategory: { slug: { current: "world" } },
+        secondaryCategories: [{ slug: { current: "politics" } }],
+      }),
+    }),
+  );
+  assert.equal(response.status, 200);
+  const data = await response.json();
+  assert.equal(data.revalidated, true);
+  assert.ok(data.tags.includes("story"));
+  assert.ok(data.tags.includes("story:breaking-news-story"));
+  assert.ok(data.tags.includes("category:world"));
+  assert.ok(data.tags.includes("category:politics"));
+  assert.ok(data.paths.includes("/story/breaking-news-story"));
+  assert.ok(data.paths.includes("/category/world"));
+  assert.ok(data.paths.includes("/category/politics"));
+});
+
 test("critical public, feed and Studio route modules exist", async () => {
   const routes = [
     "app/(site)/page.tsx",

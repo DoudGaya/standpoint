@@ -153,6 +153,7 @@ export async function getStoriesByCategory(
   page = 1
 ): Promise<Story[]> {
   const offset = (normalizePage(page) - 1) * PAGE_SIZE;
+  const targetSlug = slug.toLowerCase();
   return (
     (await fetchSanity<Story[]>(
       STORIES_BY_CATEGORY_QUERY,
@@ -160,11 +161,17 @@ export async function getStoriesByCategory(
       { tags: ["story", `category:${slug}`], revalidate: 180 }
     )) ||
     paginate(
-      stories.filter(
-        (story) =>
-          story.primaryCategory.slug === slug ||
-          story.secondaryCategories?.some((item) => item.slug === slug)
-      ),
+      stories.filter((story) => {
+        const primaryMatch =
+          story.primaryCategory.slug.toLowerCase() === targetSlug ||
+          story.primaryCategory.parentSlug?.toLowerCase() === targetSlug;
+        const secondaryMatch = story.secondaryCategories?.some(
+          (item) =>
+            item.slug.toLowerCase() === targetSlug ||
+            item.parentSlug?.toLowerCase() === targetSlug
+        );
+        return primaryMatch || Boolean(secondaryMatch);
+      }),
       page
     )
   );
@@ -180,7 +187,7 @@ export async function getStoriesByAuthor(slug: string, page = 1) {
     )) ||
     paginate(
       stories.filter((story) =>
-        story.authors.some((author) => author.slug === slug)
+        story.authors.some((author) => author.slug.toLowerCase() === slug.toLowerCase())
       ),
       page
     )
@@ -243,10 +250,13 @@ export async function getCategory(slug: string): Promise<Category | null> {
     { slug },
     { tags: ["category", `category:${slug}`], revalidate: 600 }
   );
+  const targetSlug = slug.toLowerCase();
   return (
     cmsCategory ||
-    categories.find((item) => item.slug === slug) ||
-    categories.flatMap((item) => item.children ?? []).find((item) => item.slug === slug) ||
+    categories.find((item) => item.slug.toLowerCase() === targetSlug) ||
+    categories
+      .flatMap((item) => item.children ?? [])
+      .find((item) => item.slug.toLowerCase() === targetSlug) ||
     null
   );
 }
