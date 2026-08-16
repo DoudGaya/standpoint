@@ -12,7 +12,7 @@ export const STORY_BY_SLUG_QUERY = defineQuery(`
 `);
 
 export const STORY_LIST_QUERY = defineQuery(`
-  *[_type == "story" && (!defined(workflow.status) || workflow.status in ["published", "updated", "corrected"])]
+  *[_type == "story" && (!defined(workflow.status) || workflow.status in ["published", "updated", "corrected"]) && (!defined($language) || $language == "" || language == $language)]
   | order(coalesce(publishedAt, _createdAt) desc) [$offset...$end]
   ${STORY_CARD_PROJECTION}
 `);
@@ -28,6 +28,7 @@ export const STORIES_BY_CATEGORY_QUERY = defineQuery(`
   *[
     _type == "story" &&
     (!defined(workflow.status) || workflow.status in ["published", "updated", "corrected"]) &&
+    (!defined($language) || $language == "" || language == $language) &&
     (
       lower(primaryCategory->slug.current) == lower($slug) ||
       lower(primaryCategory->parent->slug.current) == lower($slug) ||

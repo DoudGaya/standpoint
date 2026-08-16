@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Clock, ShieldCheck } from "lucide-react";
+import { Clock, Globe, ShieldCheck } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/article/Breadcrumbs";
 import { AuthorCard } from "@/components/article/AuthorCard";
@@ -87,6 +87,11 @@ export default async function StoryPage({ params }: Props) {
   const contributors = (story.contributors || []).filter((c) => Boolean(c?.person));
   const tags = story.tags || [];
 
+  const translatedStory = allStories.find(
+    (item) =>
+      story.relatedStorySlugs?.includes(item.slug) && item.language !== story.language
+  );
+
   const related = (story.relatedStorySlugs || [])
     .map((relatedSlug) => allStories.find((item) => item.slug === relatedSlug))
     .filter((item): item is NonNullable<typeof item> => Boolean(item));
@@ -114,6 +119,19 @@ export default async function StoryPage({ params }: Props) {
             { label: storyTypeLabel },
           ]}
         />
+        {translatedStory ? (
+          <div className={styles.translationBanner}>
+            <Globe size={18} />
+            <span>
+              {story.language === "en"
+                ? "Wannan labarin yana samuwa ne a Harshen Hausa: "
+                : "This story is also available in English: "}
+              <Link href={`/story/${translatedStory.slug}`}>
+                {translatedStory.headline}
+              </Link>
+            </span>
+          </div>
+        ) : null}
         <div className={styles.headerGrid}>
           <div>
             <span className="eyebrow">{story.kicker}</span>
@@ -159,7 +177,7 @@ export default async function StoryPage({ params }: Props) {
 
       {story.sponsoredBy ? (
         <div className={`container ${styles.sponsoredDisclosure}`}>
-          Paid content · Sponsored by {typeof story.sponsoredBy === "string" ? story.sponsoredBy : (story.sponsoredBy as any)?.name || "Sponsor"}. This commercial
+          Paid content · Sponsored by {typeof story.sponsoredBy === "string" ? story.sponsoredBy : (story.sponsoredBy as { name?: string })?.name || "Sponsor"}. This commercial
           partnership is clearly separated from independent editorial reporting.
         </div>
       ) : null}

@@ -4,6 +4,8 @@ import type {
   Newsletter,
   SiteSettings,
 } from "@/lib/content/types";
+import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { BrandMark } from "./BrandMark";
 import styles from "./site-shell.module.css";
 
@@ -11,17 +13,21 @@ export function SiteFooter({
   categories = [],
   newsletters = [],
   settings,
+  locale = DEFAULT_LOCALE,
 }: {
   categories?: Category[];
   newsletters?: Newsletter[];
   settings?: SiteSettings;
+  locale?: Locale;
 }) {
+  const dict = getDictionary(locale);
+
   return (
     <footer className={`${styles.footer} no-print`}>
       <div className={`container ${styles.footerTop}`}>
         <div className={styles.footerBrand}>
           <BrandMark inverse />
-          <p>{settings?.description}</p>
+          <p>{dict.footer.about}</p>
           <div className={styles.footerSocial}>
             {(settings?.socialLinks || []).map((link) => (
               <a href={link.url} key={link.label} rel="me">

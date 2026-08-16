@@ -11,6 +11,7 @@ import {
   getPodcastShows,
   getVideos,
 } from "@/lib/content/repository";
+import { getCurrentLocale, getDictionary } from "@/lib/i18n/get-dictionary";
 import { LeadPackage } from "@/components/editorial/LeadPackage";
 import { StoryCard } from "@/components/editorial/StoryCard";
 import { RankedList } from "@/components/editorial/RankedList";
@@ -29,6 +30,9 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
+
   const [
     allStories,
     modules,
@@ -39,7 +43,7 @@ export default async function HomePage() {
     liveEvents,
     factChecks,
   ] = await Promise.all([
-    getAllStories(),
+    getAllStories(locale),
     getHomepageModules(),
     getVideos(),
     getPodcastShows(),
@@ -81,14 +85,10 @@ export default async function HomePage() {
       <section className={styles.homeIntro}>
         <div className={`container ${styles.homeIntroInner}`}>
           <p>
-            Independent journalism
-            <span aria-hidden="true">/</span>
-            Global perspective
-            <span aria-hidden="true">/</span>
-            Public-interest reporting
+            {dict.home.heroTagline}
           </p>
           <Link href="/about">
-            Why GlobHub <ArrowRight size={14} />
+            {dict.home.whyGlobhub} <ArrowRight size={14} />
           </Link>
         </div>
       </section>
@@ -101,7 +101,7 @@ export default async function HomePage() {
 
       <section className={`container section ${styles.latestSection}`}>
         <div className={styles.latestMain}>
-          <SectionHeading title="Latest" href="/latest" />
+          <SectionHeading title={dict.home.latest} href="/latest" />
           <div className={styles.latestList}>
             {latestStories.map((story) => (
               <StoryCard story={story} variant="horizontal" key={story.id} />
@@ -112,12 +112,12 @@ export default async function HomePage() {
           <RankedList stories={rankedStories} />
           {factCheck ? (
             <div className={styles.factCheckPromo}>
-              <span>Fact check</span>
+              <span>{dict.home.factCheck}</span>
               <strong>{factCheck.title}</strong>
               <p>
                 Verdict: <b>{factCheck.verdict.replaceAll("-", " ")}</b>
               </p>
-              <Link href={`/fact-check/${factCheck.slug}`}>Read the evidence</Link>
+              <Link href={`/fact-check/${factCheck.slug}`}>{dict.home.readEvidence}</Link>
             </div>
           ) : null}
         </aside>
@@ -126,7 +126,7 @@ export default async function HomePage() {
       <section className="surface-alt section">
         <div className="container">
           <SectionHeading
-            title="Reporting that goes deeper"
+            title={dict.home.reportingDeeper}
             href="/investigations"
           />
           <div className={styles.deeperGrid}>

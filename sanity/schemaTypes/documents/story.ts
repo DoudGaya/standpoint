@@ -143,6 +143,12 @@ export const story = defineType({
       type: "string",
       group: "publishing",
       initialValue: "en",
+      options: {
+        list: [
+          { title: "English", value: "en" },
+          { title: "Hausa", value: "ha" },
+        ],
+      },
       validation: (rule) => rule.required(),
     }),
     defineField({

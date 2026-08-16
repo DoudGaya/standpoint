@@ -2,7 +2,6 @@
 
 import {
   ChevronDown,
-  Globe2,
   Headphones,
   Menu,
   Search,
@@ -73,7 +72,16 @@ function MegaMenu({
   );
 }
 
-export function HeaderNavigation({ navigation }: { navigation: Navigation }) {
+import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+
+export function HeaderNavigation({
+  navigation,
+  locale = DEFAULT_LOCALE,
+}: {
+  navigation: Navigation;
+  locale?: Locale;
+}) {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileCategory, setMobileCategory] = useState<string | null>(null);
@@ -284,7 +292,7 @@ export function HeaderNavigation({ navigation }: { navigation: Navigation }) {
             <Link href="/team" onClick={() => setMobileOpen(false)}>
               Our newsroom
             </Link>
-            <span><Globe2 size={16} /> {navigation.edition} · {navigation.language}</span>
+            <LanguageSwitcher currentLocale={locale} />
             {navigation.showAccount ? <span><UserRound size={16} /> Reader account coming later</span> : null}
           </div>
         </div>

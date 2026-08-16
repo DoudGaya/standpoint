@@ -78,15 +78,20 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+import { getCurrentLocale } from "@/lib/i18n/get-dictionary";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { isEnabled: isDraftMode } = await draftMode();
+  const [{ isEnabled: isDraftMode }, locale] = await Promise.all([
+    draftMode(),
+    getCurrentLocale(),
+  ]);
 
   return (
-    <html lang="en" className={`${manrope.variable} ${newsreader.variable}`} suppressHydrationWarning>
+    <html lang={locale} className={`${manrope.variable} ${newsreader.variable}`} suppressHydrationWarning>
       <body suppressHydrationWarning>
         {children}
         {sanityEnv.configured ? (

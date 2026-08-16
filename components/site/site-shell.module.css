@@ -616,3 +616,65 @@
     text-align: left;
   }
 }
+
+.languageSwitcher {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.languageSwitcher:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.languageIcon {
+  color: var(--cyan, #00d2eb);
+}
+
+.languageLabel {
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+}
+
+.languageOptions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: 0.25rem;
+}
+
+.languageButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.62rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.languageButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.languageActive {
+  background: var(--cyan, #00d2eb) !important;
+  color: var(--brand-deep, #0b061d) !important;
+  border-color: var(--cyan, #00d2eb) !important;
+  font-weight: 800;
+}
+

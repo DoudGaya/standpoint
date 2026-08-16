@@ -318,6 +318,7 @@ export const stories: Story[] = [
       },
     ],
     relatedStorySlugs: [
+      "coastal-cities-climate-resilience-pact-ha",
       "inside-the-race-to-map-urban-heat",
       "new-trade-corridor-small-exporters",
     ],
@@ -619,6 +620,118 @@ export const stories: Story[] = [
     homepageEligible: true,
     trendingEligible: false,
     priority: 52,
+    workflowStatus: "published",
+    commentsEnabled: true,
+    accessStatus: "free",
+  },
+  {
+    id: "story-cities-climate-pact-ha",
+    headline:
+      "Biranen bakin teku sun kulla sabuwar yarjejeniya kan kudaden jure sauyin yanayi",
+    shortHeadline: "Biranen bakin teku sun haɗa kai kan kuɗaɗen sauyin yanayi",
+    mobileHeadline: "Biranen bakin teku a haɗa kai",
+    slug: "coastal-cities-climate-resilience-pact-ha",
+    standfirst:
+      "Ƙungiyar birane 18 tana haɗa sayayya, bayanai da garantin bashi domin maido da ayyukan jure sauyin yanayi daga tsare-tsare zuwa gini.",
+    deck:
+      "Yarjejeniyar za ta iya zama gwaji na ko haɗin kan birni zuwa birni zai iya buɗe ayyukan da kuɗaɗen ƙasa suka yi watsi da su.",
+    kicker: "Ci gaban duniya",
+    type: "news",
+    primaryCategory: category("world"),
+    secondaryCategories: [category("climate"), category("business")],
+    tags: ["cities", "resilience", "finance"],
+    topics: ["Climate adaptation", "Urban development"],
+    locations: ["West Africa", "Indian Ocean"],
+    language: "ha",
+    edition: "Global",
+    authors: [amara, leila],
+    publishedAt: "2026-07-28T08:15:00.000Z",
+    updatedAt: "2026-07-28T10:42:00.000Z",
+    readingTime: 7,
+    hero: image(
+      "/images/stories/coastal-city.jpg",
+      "Wani birni na bakin teku",
+      "Biranen da ke shiga sun ce haɗin gwiwar sayayya zai iya rage farashin kariyar ambaliya.",
+      "Unsplash / development media"
+    ),
+    body: [
+      paragraph(
+        "p1-ha",
+        "Shugabannin birane daga Afirka, Asiya da Kudu maso Gabashin Amurka sun yarda su raba tsare-tsaren ayyuka da haɗa ikon sayan shingen ambaliyar ruwa da tsarin gargadi da wuri."
+      ),
+      paragraph(
+        "p2-ha",
+        "A ƙarƙashin tsarin son rai, biranen da ke shiga za su wallafa bayanan haɗari marasa son rai tare da amfani da tsari guda domin tantance yan kwangila."
+      ),
+      {
+        _key: "facts-ha",
+        _type: "factBox",
+        title: "Abin da yarjejeniyar ta kunsa",
+        items: [
+          "Matsakaitan injiniya da sayayya na haɗin gwiwa",
+          "Asusun shirya ayyuka don ƙananan birane",
+          "Rahoton jama'a game da farashi da sakamakon yanayi",
+        ],
+      },
+      heading("h1-ha", "Meyasa kudaden gida ke da muhimmanci"),
+      paragraph(
+        "p3-ha",
+        "Ana maida hankali kan kuɗaɗen daidaitawa a shirye-shiryen ƙasa, yayin da hukumomin gida ke ɗaukar nauyin magudanan ruwa da wuraren jama'a."
+      ),
+    ],
+    relatedStorySlugs: [
+      "coastal-cities-climate-resilience-pact",
+      "new-trade-corridor-small-exporters-ha",
+    ],
+    featured: true,
+    homepageEligible: true,
+    trendingEligible: true,
+    breakingEligible: true,
+    priority: 100,
+    workflowStatus: "published",
+    seoTitle: "Biranen bakin teku sun kulla yarjejeniya a Hausa",
+    seoDescription: "Biranen bakin teku 18 za su haɗa bayanai don hanzarta ayyukan jure sauyin yanayi.",
+    searchKeywords: ["hausanews", "resilience", "cities"],
+    commentsEnabled: true,
+    accessStatus: "free",
+  },
+  {
+    id: "story-trade-corridor-ha",
+    headline:
+      "Sabuwar hanyar kasuwanci ta yi alƙawarin saurin kan iyaka — kananan yan kasuwa na son tabbaci",
+    shortHeadline: "Kananan yan kasuwa na gwada hanyar kasuwanci",
+    slug: "new-trade-corridor-small-exporters-ha",
+    standfirst:
+      "Takardun kwastam na na'ura mai kwakwalwa sun rage tafiya ta farko da sa'o'i shida, amma 'yan kasuwa sun ce kuɗaɗe bayyanannu suna da muhimmanci kamar gudu.",
+    kicker: "Kasuwanci",
+    type: "analysis",
+    primaryCategory: category("business"),
+    secondaryCategories: [category("africa")],
+    tags: ["trade", "logistics", "small business"],
+    topics: ["Regional trade"],
+    language: "ha",
+    edition: "Africa",
+    authors: [daniel],
+    publishedAt: "2026-07-28T06:30:00.000Z",
+    readingTime: 6,
+    hero: image(
+      "/images/stories/trade-corridor.jpg",
+      "Dillalan kaya a tashar jiragen kasa"
+    ),
+    body: [
+      paragraph(
+        "trade-p1-ha",
+        "Wani gwajin kan iyaka na na'ura mai kwakwalwa ya rage aikin takardu don zaɓaɓɓun kamfanonin kaya, amma ƙananan masu fitar da kaya sun ce shirin zai yi nasara kawai idan haraji maras kyau ya ragu."
+      ),
+    ],
+    relatedStorySlugs: [
+      "new-trade-corridor-small-exporters",
+      "coastal-cities-climate-resilience-pact-ha",
+    ],
+    featured: true,
+    homepageEligible: true,
+    trendingEligible: true,
+    priority: 90,
     workflowStatus: "published",
     commentsEnabled: true,
     accessStatus: "free",

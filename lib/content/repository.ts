@@ -103,25 +103,31 @@ export async function getHomepageModules(): Promise<HomepageModule[]> {
   );
 }
 
-export async function getStories(page = 1, pageSize = PAGE_SIZE): Promise<Story[]> {
+export async function getStories(page = 1, pageSize = PAGE_SIZE, locale?: string): Promise<Story[]> {
   const safePage = normalizePage(page);
   const offset = (safePage - 1) * pageSize;
+  const langFilter = locale ? stories.filter((s) => s.language === locale) : [];
+  const localList = langFilter.length > 0 ? langFilter : stories;
+
   return (
     (await fetchSanity<Story[]>(
       STORY_LIST_QUERY,
-      { offset, end: offset + pageSize },
+      { offset, end: offset + pageSize, language: locale || "" },
       { tags: ["story"], revalidate: 120 }
-    )) || paginate(stories, safePage, pageSize)
+    )) || paginate(localList, safePage, pageSize)
   );
 }
 
-export async function getAllStories(): Promise<Story[]> {
+export async function getAllStories(locale?: string): Promise<Story[]> {
+  const langFilter = locale ? stories.filter((s) => s.language === locale) : [];
+  const localList = langFilter.length > 0 ? langFilter : stories;
+
   return (
     (await fetchSanity<Story[]>(
       STORY_LIST_QUERY,
-      { offset: 0, end: 500 },
+      { offset: 0, end: 500, language: locale || "" },
       { tags: ["story"], revalidate: 120 }
-    )) || stories
+    )) || localList
   );
 }
 
@@ -150,18 +156,21 @@ export async function getStorySlugs() {
 
 export async function getStoriesByCategory(
   slug: string,
-  page = 1
+  page = 1,
+  locale?: string
 ): Promise<Story[]> {
   const offset = (normalizePage(page) - 1) * PAGE_SIZE;
   const targetSlug = slug.toLowerCase();
+  const langFilter = locale ? stories.filter((s) => s.language === locale) : stories;
+
   return (
     (await fetchSanity<Story[]>(
       STORIES_BY_CATEGORY_QUERY,
-      { slug, offset, end: offset + PAGE_SIZE },
+      { slug, offset, end: offset + PAGE_SIZE, language: locale || "" },
       { tags: ["story", `category:${slug}`], revalidate: 180 }
     )) ||
     paginate(
-      stories.filter((story) => {
+      langFilter.filter((story) => {
         const primaryMatch =
           story.primaryCategory.slug.toLowerCase() === targetSlug ||
           story.primaryCategory.parentSlug?.toLowerCase() === targetSlug;

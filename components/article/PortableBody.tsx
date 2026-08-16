@@ -63,7 +63,7 @@ const components: PortableTextComponents = {
     editorialImage: ({ value }) => {
       const imageValue = value as EditorialImageValue;
       const image = imageValue.image || imageValue;
-      const hasSource = image?.url || (image as any)?.asset;
+      const hasSource = image?.url || (image as { asset?: unknown })?.asset;
       return hasSource ? (
         <div className={styles.bodyImage}>
           <EditorialImage image={image} sizes="(max-width: 800px) 100vw, 840px" />
