@@ -83,9 +83,13 @@ export async function getNavigation(locale?: string): Promise<Navigation> {
       { tags: ["navigation", "category"], revalidate: 600 }
     )) || navigation;
 
-  const localizedCategories = (baseNav.categories || []).map((cat) =>
-    localizeCategory(cat, locale)
-  );
+  const localizedCategories = (baseNav.categories || [])
+    .filter((cat) => cat && cat.id)
+    .map((cat) => localizeCategory(cat, locale))
+    .filter((cat) => {
+      if (!cat.language || cat.language === "all") return true;
+      return cat.language === locale;
+    });
 
   return {
     ...baseNav,
@@ -319,7 +323,13 @@ export async function getCategories(locale?: string): Promise<Category[]> {
       { tags: ["category"], revalidate: 600 }
     )) || categories;
 
-  return items.map((cat) => localizeCategory(cat, locale));
+  return items
+    .filter((cat) => cat && cat.id)
+    .map((cat) => localizeCategory(cat, locale))
+    .filter((cat) => {
+      if (!cat.language || cat.language === "all") return true;
+      return cat.language === locale;
+    });
 }
 
 export async function getPerson(slug: string): Promise<Person | null> {

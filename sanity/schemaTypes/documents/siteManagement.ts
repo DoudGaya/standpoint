@@ -93,7 +93,12 @@ export const navigation = defineType({
             }),
             defineField({
               name: "label",
-              title: "Navigation label override",
+              title: "Navigation label override (English)",
+              type: "string",
+            }),
+            defineField({
+              name: "labelHa",
+              title: "Navigation label override (Hausa)",
               type: "string",
             }),
             defineField({
