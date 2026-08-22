@@ -46,6 +46,7 @@ export function ListingPage({
                 variant={index === 0 ? "large" : "horizontal"}
                 priority={index === 0}
                 key={story.id}
+                locale={locale}
               />
             ))
           ) : (

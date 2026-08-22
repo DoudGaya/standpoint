@@ -65,9 +65,13 @@ export type Person = {
 export type Category = {
   id: string;
   title: string;
+  titleHa?: string;
   navigationLabel?: string;
+  navigationLabelHa?: string;
   slug: string;
   description: string;
+  descriptionHa?: string;
+  language?: string;
   parentSlug?: string;
   accent: string;
   order: number;

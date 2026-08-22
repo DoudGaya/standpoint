@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Camera, CirclePlay, Headphones } from "lucide-react";
 import type { Story } from "@/lib/content/types";
 import { formatDate } from "@/lib/site";
+import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 import { EditorialImage } from "./EditorialImage";
 import styles from "./editorial.module.css";
 
@@ -18,11 +19,17 @@ export function StoryCard({
   story,
   variant = "standard",
   priority = false,
+  locale = DEFAULT_LOCALE,
 }: {
   story: Story;
   variant?: StoryCardVariant;
   priority?: boolean;
+  locale?: Locale;
 }) {
+  const isHa = locale === "ha";
+  const minReadText = isHa ? "minti na karatu" : "min read";
+  const bylinePrefix = isHa ? "Daga" : "By";
+
   if (variant === "compact") {
     return (
       <article className={`${styles.storyCard} ${styles.compactCard}`}>
@@ -32,8 +39,8 @@ export function StoryCard({
             <Link href={`/story/${story.slug}`}>{story.shortHeadline}</Link>
           </h3>
           <p className={styles.cardMeta}>
-            {formatDate(story.publishedAt, { day: "numeric", month: "short" })} ·{" "}
-            {story.readingTime} min
+            {formatDate(story.publishedAt, { day: "numeric", month: "short" }, locale)} ·{" "}
+            {story.readingTime} {isHa ? "minti" : "min"}
           </p>
         </div>
         {story.hero ? (
@@ -91,15 +98,15 @@ export function StoryCard({
         {variant !== "opinion" ? (
           <p className={styles.cardSummary}>{story.standfirst}</p>
         ) : (
-          <p className={styles.opinionByline}>By {story.authors[0]?.name}</p>
+          <p className={styles.opinionByline}>{bylinePrefix} {story.authors[0]?.name}</p>
         )}
         <p className={styles.cardMeta}>
           {formatDate(story.publishedAt, {
             day: "numeric",
             month: "short",
             year: "numeric",
-          })}
-          {variant !== "opinion" ? ` · ${story.readingTime} min read` : ""}
+          }, locale)}
+          {variant !== "opinion" ? ` · ${story.readingTime} ${minReadText}` : ""}
         </p>
       </div>
     </article>

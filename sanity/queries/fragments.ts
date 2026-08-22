@@ -29,9 +29,13 @@ export const PERSON_PROJECTION = `{
 export const CATEGORY_PROJECTION = `{
   "id": _id,
   title,
+  titleHa,
   navigationLabel,
+  navigationLabelHa,
   "slug": slug.current,
   description,
+  descriptionHa,
+  language,
   "parentSlug": parent->slug.current,
   "accent": accentColor,
   "order": navigationOrder,

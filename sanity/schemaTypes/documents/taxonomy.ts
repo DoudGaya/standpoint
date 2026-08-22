@@ -6,23 +6,53 @@ export const category = defineType({
   type: "document",
   groups: [
     { name: "content", title: "Content", default: true },
+    { name: "language", title: "Language & i18n" },
     { name: "navigation", title: "Navigation" },
     { name: "seo", title: "SEO" },
   ],
   fields: [
     defineField({
+      name: "language",
+      title: "Language setting",
+      type: "string",
+      group: "language",
+      options: {
+        list: [
+          { title: "English (en)", value: "en" },
+          { title: "Hausa (ha)", value: "ha" },
+          { title: "All languages (Bilingual)", value: "all" },
+        ],
+      },
+      initialValue: "all",
+      description: "Controls which language edition displays this category.",
+    }),
+    defineField({
       name: "title",
-      title: "Title",
+      title: "Title (English)",
       type: "string",
       group: "content",
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "titleHa",
+      title: "Title (Hausa)",
+      type: "string",
+      group: "language",
+      description: "Hausa title for this category (e.g. Afrika for Africa, Siyasa for Politics).",
+    }),
+    defineField({
       name: "navigationLabel",
-      title: "Navigation label",
+      title: "Navigation label (English)",
       type: "string",
       group: "navigation",
-      description: "Optional shorter label for menus.",
+      description: "Optional shorter label for English menus.",
+    }),
+    defineField({
+      name: "navigationLabelHa",
+      title: "Navigation label (Hausa)",
+      type: "string",
+      group: "language",
+      description: "Optional shorter label for Hausa menus.",
     }),
     defineField({
       name: "slug",
@@ -34,11 +64,19 @@ export const category = defineType({
     }),
     defineField({
       name: "description",
-      title: "Description",
+      title: "Description (English)",
       type: "text",
       rows: 3,
       group: "content",
       validation: (rule) => rule.required().max(420),
+    }),
+    defineField({
+      name: "descriptionHa",
+      title: "Description (Hausa)",
+      type: "text",
+      rows: 3,
+      group: "language",
+      description: "Hausa description for this category.",
     }),
     defineField({
       name: "parent",
@@ -146,13 +184,19 @@ export const category = defineType({
   preview: {
     select: {
       title: "title",
+      titleHa: "titleHa",
+      language: "language",
       parent: "parent.title",
       active: "active",
       media: "heroImage",
     },
-    prepare: ({ title, parent, active, media }) => ({
-      title,
-      subtitle: [active === false ? "Inactive" : null, parent ? `Under ${parent}` : "Top level"]
+    prepare: ({ title, titleHa, language, parent, active, media }) => ({
+      title: titleHa ? `${title} / ${titleHa}` : title,
+      subtitle: [
+        active === false ? "Inactive" : null,
+        language ? `Lang: ${language.toUpperCase()}` : null,
+        parent ? `Under ${parent}` : "Top level",
+      ]
         .filter(Boolean)
         .join(" · "),
       media,
@@ -167,10 +211,29 @@ function simpleTaxonomy(name: string, title: string) {
     type: "document",
     fields: [
       defineField({
+        name: "language",
+        title: "Language setting",
+        type: "string",
+        options: {
+          list: [
+            { title: "English (en)", value: "en" },
+            { title: "Hausa (ha)", value: "ha" },
+            { title: "All languages (Bilingual)", value: "all" },
+          ],
+        },
+        initialValue: "all",
+      }),
+      defineField({
         name: "title",
-        title: "Title",
+        title: "Title (English)",
         type: "string",
         validation: (rule) => rule.required(),
+      }),
+      defineField({
+        name: "titleHa",
+        title: "Title (Hausa)",
+        type: "string",
+        description: "Hausa title for this item.",
       }),
       defineField({
         name: "slug",
@@ -181,7 +244,13 @@ function simpleTaxonomy(name: string, title: string) {
       }),
       defineField({
         name: "description",
-        title: "Description",
+        title: "Description (English)",
+        type: "text",
+        rows: 3,
+      }),
+      defineField({
+        name: "descriptionHa",
+        title: "Description (Hausa)",
         type: "text",
         rows: 3,
       }),
@@ -190,7 +259,12 @@ function simpleTaxonomy(name: string, title: string) {
       defineField({ name: "seo", title: "SEO metadata", type: "seo" }),
     ],
     preview: {
-      select: { title: "title", subtitle: "description", media: "heroImage" },
+      select: { title: "title", titleHa: "titleHa", subtitle: "description", media: "heroImage" },
+      prepare: ({ title, titleHa, subtitle, media }) => ({
+        title: titleHa ? `${title} / ${titleHa}` : title,
+        subtitle,
+        media,
+      }),
     },
   });
 }
@@ -205,10 +279,29 @@ export const location = defineType({
   type: "document",
   fields: [
     defineField({
+      name: "language",
+      title: "Language setting",
+      type: "string",
+      options: {
+        list: [
+          { title: "English (en)", value: "en" },
+          { title: "Hausa (ha)", value: "ha" },
+          { title: "All languages (Bilingual)", value: "all" },
+        ],
+      },
+      initialValue: "all",
+    }),
+    defineField({
       name: "title",
-      title: "Name",
+      title: "Name (English)",
       type: "string",
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "titleHa",
+      title: "Name (Hausa)",
+      type: "string",
+      description: "Hausa name for this location (e.g. Afrika for Africa).",
     }),
     defineField({
       name: "slug",
@@ -227,9 +320,16 @@ export const location = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({ name: "isoCode", title: "ISO code", type: "string" }),
-    defineField({ name: "description", title: "Description", type: "text" }),
+    defineField({ name: "description", title: "Description (English)", type: "text" }),
+    defineField({ name: "descriptionHa", title: "Description (Hausa)", type: "text" }),
     defineField({ name: "seo", title: "SEO metadata", type: "seo" }),
   ],
-  preview: { select: { title: "title", subtitle: "kind" } },
+  preview: {
+    select: { title: "title", titleHa: "titleHa", subtitle: "kind" },
+    prepare: ({ title, titleHa, subtitle }) => ({
+      title: titleHa ? `${title} / ${titleHa}` : title,
+      subtitle,
+    }),
+  },
 });
 

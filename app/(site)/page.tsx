@@ -105,7 +105,7 @@ export default async function HomePage() {
           <SectionHeading title={dict.home.latest} href="/latest" />
           <div className={styles.latestList}>
             {latestStories.map((story) => (
-              <StoryCard story={story} variant="horizontal" key={story.id} />
+              <StoryCard story={story} variant="horizontal" key={story.id} locale={locale} />
             ))}
           </div>
         </div>
@@ -136,6 +136,7 @@ export default async function HomePage() {
                 story={story}
                 variant={index === 0 ? "large" : "standard"}
                 key={story.id}
+                locale={locale}
               />
             ))}
           </div>
@@ -146,11 +147,11 @@ export default async function HomePage() {
         <section className={`surface-dark ${styles.liveBand}`}>
           <div className={`container ${styles.liveGrid}`}>
             <div className={styles.liveIntro}>
-              <span><Radio size={14} /> Live coverage</span>
+              <span><Radio size={14} /> {dict.home.liveCoverage}</span>
               <h2>{liveEvent.title}</h2>
               <p>{liveEvent.summary}</p>
               <Link href={`/live/${liveEvent.slug}`} className="button button--cyan">
-                Follow live updates
+                {dict.home.followLive}
               </Link>
             </div>
             <ol className={styles.livePoints}>
@@ -167,7 +168,7 @@ export default async function HomePage() {
 
       <section className={`surface-ink section ${styles.watchSection}`}>
         <div className="container">
-          <SectionHeading title="Watch" href="/video" inverse />
+          <SectionHeading title={dict.home.watch} href="/video" inverse />
           <div className={styles.videoGrid}>
             {videos.slice(0, 3).map((video, index) => (
               <article
@@ -181,7 +182,7 @@ export default async function HomePage() {
                   />
                   <span><CirclePlay size={index === 0 ? 34 : 24} /></span>
                 </Link>
-                <p>{video.series || "GlobHub Video"} · {video.duration || "Live"}</p>
+                <p>{video.series || (locale === "ha" ? "Bidiyon GlobHub" : "GlobHub Video")} · {video.duration || (locale === "ha" ? "Kai tsaye" : "Live")}</p>
                 <h3>
                   <Link href={`/video/${video.slug}`}>{video.title}</Link>
                 </h3>
@@ -193,36 +194,36 @@ export default async function HomePage() {
 
       <section className={`container section ${styles.ideasGrid}`}>
         <div>
-          <SectionHeading title="Ideas & Opinion" href="/opinion" />
+          <SectionHeading title={dict.home.ideasOpinion} href="/opinion" />
           <div className={styles.opinionGrid}>
             {opinionStories.slice(0, 2).map((story) => (
               <article key={story.id} className={styles.opinionCard}>
                 <p>{story.kicker}</p>
                 <h3><Link href={`/story/${story.slug}`}>{story.headline}</Link></h3>
-                <span>By {story.authors[0]?.name}</span>
+                <span>{dict.home.byAuthor} {story.authors[0]?.name}</span>
               </article>
             ))}
             <article className={styles.editorialNote}>
-              <span>Our standards</span>
-              <h3>How GlobHub separates news, analysis and opinion</h3>
-              <Link href="/editorial-policy">Read our editorial standards</Link>
+              <span>{dict.home.editorialStandards}</span>
+              <h3>{dict.home.editorialStandardsDesc}</h3>
+              <Link href="/editorial-policy">{dict.home.readStandards}</Link>
             </article>
           </div>
         </div>
         {show && latestEpisode ? (
           <aside className={styles.podcastCard}>
-            <span><Headphones size={16} /> The latest podcast</span>
+            <span><Headphones size={16} /> {dict.home.latestPodcast}</span>
             <h2>{show.title}</h2>
             <h3>{latestEpisode.title}</h3>
             <p>{latestEpisode.summary}</p>
             <small>
-              {formatDate(latestEpisode.publishedAt)} · {latestEpisode.duration}
+              {formatDate(latestEpisode.publishedAt, undefined, locale)} · {latestEpisode.duration}
             </small>
             <Link
               href={`/podcasts/${show.slug}/${latestEpisode.slug}`}
               className="button button--cyan"
             >
-              Listen now
+              {dict.home.listenNow}
             </Link>
           </aside>
         ) : null}

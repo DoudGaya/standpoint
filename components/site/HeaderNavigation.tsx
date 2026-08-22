@@ -137,17 +137,17 @@ export function HeaderNavigation({
           <div className={styles.brandActions}>
             <Link href="/search" className={styles.headerAction}>
               <Search size={18} />
-              <span>Search</span>
+              <span>{dict.header.search}</span>
             </Link>
             {navigation.showLive ? (
               <Link href="/watch-live" className={styles.headerAction}>
                 <span className={styles.liveDot} aria-hidden="true" />
-                <span>Live</span>
+                <span>{dict.header.watchLive}</span>
               </Link>
             ) : null}
             {navigation.showNewsletter ? (
               <Link href="/newsletters" className="button button--cyan">
-                Newsletters
+                {dict.header.newsletters}
               </Link>
             ) : null}
           </div>
