@@ -37,7 +37,7 @@ export function SiteFooter({
           </div>
         </div>
         <div className={styles.footerColumn}>
-          <h2>Sections</h2>
+          <h2>{dict.footer.sections}</h2>
           {(categories || [])
             .filter((category) => category.showInFooter !== false)
             .slice(0, 8)
@@ -48,14 +48,13 @@ export function SiteFooter({
             ))}
         </div>
         <div className={styles.footerColumn}>
-          <h2>More from GlobHub</h2>
-          <Link href="/latest">Latest news</Link>
-          <Link href="/video">Video</Link>
-          <Link href="/podcasts">Podcasts</Link>
-          <Link href="/live">Live coverage</Link>
-          <Link href="/fact-check">Fact checks</Link>
-          <Link href="/events">Events</Link>
-          <Link href="/newsletters">Newsletters</Link>
+          <h2>{dict.footer.moreFrom}</h2>
+          <Link href="/latest">{dict.nav.latest}</Link>
+          <Link href="/video">{dict.nav.video}</Link>
+          <Link href="/podcasts">{dict.nav.podcasts}</Link>
+          <Link href="/live">{dict.home.liveCoverage}</Link>
+          <Link href="/fact-check">{dict.home.factCheck}</Link>
+          <Link href="/newsletters">{dict.header.newsletters}</Link>
           {(newsletters || []).slice(0, 1).map((item) => (
             <Link href={`/newsletters/${item.slug}`} key={item.id}>
               {item.name}
@@ -63,29 +62,26 @@ export function SiteFooter({
           ))}
         </div>
         <div className={styles.footerColumn}>
-          <h2>About & policies</h2>
-          <Link href="/about">About us</Link>
-          <Link href="/team">Our newsroom</Link>
-          <Link href="/editorial-policy">Editorial standards</Link>
-          <Link href="/corrections">Corrections</Link>
-          <Link href="/fact-checking-methodology">Fact-checking</Link>
-          <Link href="/ownership">Ownership & funding</Link>
-          <Link href="/accessibility">Accessibility</Link>
+          <h2>{dict.footer.aboutAndPolicies}</h2>
+          <Link href="/about">{dict.home.whyGlobhub}</Link>
+          <Link href="/team">{dict.nav.ourNewsroom}</Link>
+          <Link href="/editorial-policy">{dict.home.editorialStandards}</Link>
+          <Link href="/corrections">{dict.footer.corrections}</Link>
+          <Link href="/accessibility">{dict.footer.accessibility}</Link>
           <Link href="/contact">Contact</Link>
         </div>
       </div>
       <div className={styles.footerLegal}>
         <div className={`container ${styles.footerLegalInner}`}>
-          <span>© {new Date().getUTCFullYear()} GlobHub Media</span>
+          <span>© {new Date().getUTCFullYear()} GlobHub Media · {dict.footer.rights}</span>
           <div>
-            <Link href="/privacy">Privacy</Link>
-            <Link href="/terms">Terms</Link>
-            <Link href="/cookies">Cookies</Link>
+            <Link href="/privacy">{dict.footer.privacy}</Link>
+            <Link href="/terms">{dict.footer.terms}</Link>
+            <Link href="/cookies">{dict.footer.cookies}</Link>
             <Link href="/rss.xml">RSS</Link>
           </div>
           <p>
-            GlobHub Media is a fictional demonstration platform. Sample
-            journalism and people are not real.
+            {dict.footer.disclaimer}
           </p>
         </div>
       </div>

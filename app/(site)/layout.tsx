@@ -6,7 +6,7 @@ import {
   getNewsletters,
   getSiteSettings,
 } from "@/lib/content/repository";
-import { getCurrentLocale } from "@/lib/i18n/get-dictionary";
+import { getCurrentLocale } from "@/lib/i18n/server";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/jsonld";
@@ -14,14 +14,15 @@ import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/jsonld";
 export default async function SiteLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
-  const [navigation, breakingItems, settings, categories, newsletters, locale] =
+  const locale = await getCurrentLocale();
+
+  const [navigation, breakingItems, settings, categories, newsletters] =
     await Promise.all([
-      getNavigation(),
-      getBreakingItems(),
+      getNavigation(locale),
+      getBreakingItems(locale),
       getSiteSettings(),
-      getCategories(),
+      getCategories(locale),
       getNewsletters(),
-      getCurrentLocale(),
     ]);
 
   return (

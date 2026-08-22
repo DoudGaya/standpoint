@@ -36,12 +36,16 @@ export function SiteHeader({
           <div className={styles.utilityMeta}>
             {navigation?.showDate ? (
               <time dateTime={new Date().toISOString()}>
-                {formatDate(new Date(), {
-                  weekday: "long",
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
+                {formatDate(
+                  new Date(),
+                  {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  },
+                  locale
+                )}
               </time>
             ) : null}
             {settings?.edition ? <span>{settings.edition} {dict.header.edition}</span> : null}

@@ -24,22 +24,26 @@ function categoryHref(category: Category) {
 function MegaMenu({
   category,
   onNavigate,
+  locale = DEFAULT_LOCALE,
 }: {
   category: Category;
   onNavigate?: () => void;
+  locale?: Locale;
 }) {
+  const dict = getDictionary(locale);
+
   return (
     <div className={styles.megaMenu}>
       <div className={styles.megaIntro}>
-        <span className="eyebrow">Explore</span>
+        <span className="eyebrow">{dict.nav.explore}</span>
         <h2>{category.title}</h2>
         <p>{category.description}</p>
         <Link href={categoryHref(category)} onClick={onNavigate}>
-          View all {category.title}
+          {dict.nav.viewAll} {category.title}
         </Link>
       </div>
       <div className={styles.megaLinks}>
-        <p className={styles.megaLabel}>Sections</p>
+        <p className={styles.megaLabel}>{dict.nav.sections}</p>
         {(category.children || []).map((child) => (
           <Link key={child.id} href={categoryHref(child)} onClick={onNavigate}>
             <span>{child.title}</span>
@@ -49,30 +53,31 @@ function MegaMenu({
         {(category.children || []).length === 0 ? (
           <>
             <Link href={`${categoryHref(category)}?view=latest`} onClick={onNavigate}>
-              <span>Latest</span>
-              <small>Newest verified reporting</small>
+              <span>{dict.nav.latest}</span>
+              <small>{dict.nav.latestNews}</small>
             </Link>
             <Link href={`${categoryHref(category)}?view=analysis`} onClick={onNavigate}>
-              <span>Analysis</span>
-              <small>Context, drivers and implications</small>
+              <span>{dict.nav.analysis}</span>
+              <small>{dict.nav.analysisSubtitle}</small>
             </Link>
             <Link href={`${categoryHref(category)}?view=features`} onClick={onNavigate}>
-              <span>Features</span>
-              <small>Reporting that goes deeper</small>
+              <span>{dict.nav.features}</span>
+              <small>{dict.nav.featuresSubtitle}</small>
             </Link>
           </>
         ) : null}
       </div>
       <div className={styles.megaFeatured}>
-        <span>From the desk</span>
-        <strong>Independent reporting with local knowledge and global context.</strong>
-        <small>Updated throughout the day</small>
+        <span>{dict.nav.fromTheDesk}</span>
+        <strong>{dict.nav.deskTagline}</strong>
+        <small>{dict.nav.updatedThroughout}</small>
       </div>
     </div>
   );
 }
 
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function HeaderNavigation({
@@ -82,6 +87,7 @@ export function HeaderNavigation({
   navigation: Navigation;
   locale?: Locale;
 }) {
+  const dict = getDictionary(locale);
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileCategory, setMobileCategory] = useState<string | null>(null);
@@ -185,6 +191,7 @@ export function HeaderNavigation({
                         <MegaMenu
                           category={category}
                           onNavigate={() => setOpenCategory(null)}
+                          locale={locale}
                         />
                       </div>
                     </div>
@@ -193,10 +200,10 @@ export function HeaderNavigation({
               );
             })}
           <Link href="/opinion" className={styles.navLink}>
-            Opinion
+            {dict.nav.opinion}
           </Link>
           <Link href="/video" className={styles.navLink}>
-            Video
+            {dict.nav.video}
           </Link>
         </div>
       </nav>
@@ -217,13 +224,13 @@ export function HeaderNavigation({
           </div>
           <div className={styles.mobileQuick}>
             <Link href="/search" onClick={() => setMobileOpen(false)}>
-              <Search size={18} /> Search
+              <Search size={18} /> {dict.header.search}
             </Link>
             <Link href="/watch-live" onClick={() => setMobileOpen(false)}>
-              <Video size={18} /> Watch live
+              <Video size={18} /> {dict.header.watchLive}
             </Link>
             <Link href="/audio" onClick={() => setMobileOpen(false)}>
-              <Headphones size={18} /> Listen
+              <Headphones size={18} /> {dict.header.listen}
             </Link>
           </div>
           <nav className={styles.mobileNav} aria-label="Mobile primary">
@@ -271,13 +278,13 @@ export function HeaderNavigation({
                           href={`${categoryHref(category)}?view=latest`}
                           onClick={() => setMobileOpen(false)}
                         >
-                          Latest {category.title}
+                          {dict.nav.latest} {category.title}
                         </Link>
                         <Link
                           href={`${categoryHref(category)}?view=analysis`}
                           onClick={() => setMobileOpen(false)}
                         >
-                          Analysis
+                          {dict.nav.analysis}
                         </Link>
                       </div>
                     ) : null}
@@ -287,13 +294,13 @@ export function HeaderNavigation({
           </nav>
           <div className={styles.mobileFooterLinks}>
             <Link href="/newsletters" onClick={() => setMobileOpen(false)}>
-              Newsletters
+              {dict.header.newsletters}
             </Link>
             <Link href="/team" onClick={() => setMobileOpen(false)}>
-              Our newsroom
+              {dict.nav.ourNewsroom}
             </Link>
             <LanguageSwitcher currentLocale={locale} />
-            {navigation.showAccount ? <span><UserRound size={16} /> Reader account coming later</span> : null}
+            {navigation.showAccount ? <span><UserRound size={16} /> {dict.nav.readerAccountLater}</span> : null}
           </div>
         </div>
       ) : null}

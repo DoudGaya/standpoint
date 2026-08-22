@@ -19,24 +19,30 @@ export function formatDate(
     day: "numeric",
     month: "long",
     year: "numeric",
-  }
+  },
+  locale = "en"
 ) {
   const date = value instanceof Date ? value : new Date(value);
-  return new Intl.DateTimeFormat("en", {
+  const intlLocale = locale === "ha" ? "ha-NG" : "en";
+  return new Intl.DateTimeFormat(intlLocale, {
     timeZone: "UTC",
     ...options,
   }).format(date);
 }
 
-export function formatDateTime(value: string | Date) {
-  return formatDate(value, {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZoneName: "short",
-  });
+export function formatDateTime(value: string | Date, locale = "en") {
+  return formatDate(
+    value,
+    {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZoneName: "short",
+    },
+    locale
+  );
 }
 
 export function slugToTitle(slug: string) {

@@ -5,6 +5,8 @@ import {
   searchStories,
 } from "@/lib/content/repository";
 import type { SearchFilters, StoryType } from "@/lib/content/types";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { getCurrentLocale } from "@/lib/i18n/server";
 import { RecentSearches } from "@/components/search/RecentSearches";
 import { SearchResultCard } from "@/components/search/SearchResultCard";
 import styles from "@/components/search/search.module.css";
@@ -44,6 +46,9 @@ export default async function SearchPage({
   searchParams: Promise<SearchParams>;
 }) {
   const params = await searchParams;
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
+
   const q = (params.q || "").slice(0, 120);
   const filters: SearchFilters = {
     category: params.category,
@@ -56,19 +61,19 @@ export default async function SearchPage({
   };
   const [result, categories, allStories] = await Promise.all([
     searchStories(q, filters),
-    getCategories(),
-    getAllStories(),
+    getCategories(locale),
+    getAllStories(locale),
   ]);
 
   return (
     <>
       <header className={styles.searchHeader}>
         <div className="container">
-          <span className="eyebrow">Find reporting</span>
-          <h1 className="page-title">Search GlobHub</h1>
+          <span className="eyebrow">{dict.header.search}</span>
+          <h1 className="page-title">{dict.search.title}</h1>
           <form action="/search" method="get" className={styles.searchForm} role="search">
             <label htmlFor="site-search" style={{ position: "absolute", left: "-9999px" }}>
-              Search stories, authors and topics
+              {dict.search.placeholder}
             </label>
             <input
               id="site-search"
@@ -77,7 +82,7 @@ export default async function SearchPage({
               defaultValue={q}
               minLength={2}
               maxLength={120}
-              placeholder="Search stories, authors and topics"
+              placeholder={dict.search.placeholder}
               list="search-suggestions"
               required
             />
@@ -86,7 +91,7 @@ export default async function SearchPage({
                 <option value={story.shortHeadline} key={story.id} />
               ))}
             </datalist>
-            <button type="submit" className="button button--cyan">Search</button>
+            <button type="submit" className="button button--cyan">{dict.search.searchButton}</button>
           </form>
         </div>
       </header>
@@ -94,11 +99,11 @@ export default async function SearchPage({
         <aside>
           <form action="/search" method="get" className={styles.filters}>
             <input type="hidden" name="q" value={q} />
-            <h2>Filter results</h2>
+            <h2>{dict.search.filterBy}</h2>
             <label>
               Category
               <select name="category" defaultValue={params.category || ""}>
-                <option value="">All categories</option>
+                <option value="">{dict.search.allCategories}</option>
                 {categories.map((category) => (
                   <option value={category.slug} key={category.id}>{category.title}</option>
                 ))}
@@ -107,7 +112,7 @@ export default async function SearchPage({
             <label>
               Content type
               <select name="type" defaultValue={params.type || ""}>
-                <option value="">All formats</option>
+                <option value="">{dict.search.allTypes}</option>
                 {storyTypes.map((type) => (
                   <option value={type} key={type}>{type.replaceAll("-", " ")}</option>
                 ))}
@@ -124,11 +129,11 @@ export default async function SearchPage({
             <label>
               Sort
               <select name="sort" defaultValue={params.sort || "relevance"}>
-                <option value="relevance">Relevance</option>
-                <option value="newest">Newest</option>
+                <option value="relevance">{dict.search.relevance}</option>
+                <option value="newest">{dict.search.newest}</option>
               </select>
             </label>
-            <button className="button button--outline" type="submit">Apply filters</button>
+            <button className="button button--outline" type="submit">{dict.search.filterBy}</button>
           </form>
           <RecentSearches currentQuery={q} />
         </aside>
@@ -136,8 +141,8 @@ export default async function SearchPage({
           {q.length >= 2 ? (
             <>
               <div className={styles.resultsHeader}>
-                <h2>Results for “{result.query}”</h2>
-                <span>{result.total} {result.total === 1 ? "result" : "results"}</span>
+                <h2>{dict.search.resultsCount} “{result.query}”</h2>
+                <span>{result.total} {dict.search.resultsCount}</span>
               </div>
               {result.items.length ? (
                 <div className={styles.resultList}>
@@ -147,21 +152,15 @@ export default async function SearchPage({
                 </div>
               ) : (
                 <div className={styles.emptySearch}>
-                  <h2>No matching stories</h2>
-                  <p>
-                    Check the spelling, remove a filter or try a broader subject.
-                    Searches never execute raw CMS queries.
-                  </p>
+                  <h2>{dict.search.noResultsTitle}</h2>
+                  <p>{dict.search.noResultsDesc}</p>
                 </div>
               )}
             </>
           ) : (
             <div className={styles.emptySearch}>
-              <h2>Search the newsroom</h2>
-              <p>
-                Enter at least two characters. You can search headlines,
-                summaries, authors, categories and topics.
-              </p>
+              <h2>{dict.search.title}</h2>
+              <p>{dict.search.description}</p>
             </div>
           )}
         </section>

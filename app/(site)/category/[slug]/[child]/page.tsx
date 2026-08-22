@@ -5,6 +5,7 @@ import {
   getCategory,
   getStoriesByCategory,
 } from "@/lib/content/repository";
+import { getCurrentLocale } from "@/lib/i18n/server";
 
 type Props = {
   params: Promise<{ slug: string; child: string }>;
@@ -13,7 +14,8 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, child } = await params;
-  const category = await getCategory(child);
+  const locale = await getCurrentLocale();
+  const category = await getCategory(child, locale);
   if (!category || category.parentSlug !== slug) return {};
   return {
     title: category.title,
@@ -25,10 +27,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ChildCategoryPage({ params, searchParams }: Props) {
   const { slug, child } = await params;
   const page = Math.max(1, Number((await searchParams).page) || 1);
+  const locale = await getCurrentLocale();
+
   const [parentCategory, category, stories] = await Promise.all([
-    getCategory(slug),
-    getCategory(child),
-    getStoriesByCategory(child, page),
+    getCategory(slug, locale),
+    getCategory(child, locale),
+    getStoriesByCategory(child, page, locale),
   ]);
   if (!parentCategory || !category || category.parentSlug !== slug) notFound();
 
@@ -41,6 +45,7 @@ export default async function ChildCategoryPage({ params, searchParams }: Props)
       page={page}
       basePath={`/category/${slug}/${child}`}
       accent={category.accent}
+      locale={locale}
     />
   );
 }

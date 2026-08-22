@@ -78,7 +78,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-import { getCurrentLocale } from "@/lib/i18n/get-dictionary";
+import { getCurrentLocale } from "@/lib/i18n/server";
 
 export default async function RootLayout({
   children,

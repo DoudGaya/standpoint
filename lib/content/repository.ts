@@ -63,6 +63,8 @@ import type {
 
 const PAGE_SIZE = SEARCH_PAGE_SIZE;
 
+import { localizeCategory } from "@/lib/i18n/categories";
+
 export async function getSiteSettings(): Promise<SiteSettings> {
   return (
     (await fetchSanity<SiteSettings>(
@@ -73,24 +75,47 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   );
 }
 
-export async function getNavigation(): Promise<Navigation> {
-  return (
+export async function getNavigation(locale?: string): Promise<Navigation> {
+  const baseNav =
     (await fetchSanity<Navigation>(
       NAVIGATION_QUERY,
       {},
       { tags: ["navigation", "category"], revalidate: 600 }
-    )) || navigation
+    )) || navigation;
+
+  const localizedCategories = (baseNav.categories || []).map((cat) =>
+    localizeCategory(cat, locale)
   );
+
+  return {
+    ...baseNav,
+    language: locale === "ha" ? "Harshen Hausa" : "English",
+    categories: localizedCategories,
+  };
 }
 
-export async function getBreakingItems(): Promise<BreakingItem[]> {
-  return (
+export async function getBreakingItems(locale?: string): Promise<BreakingItem[]> {
+  const items =
     (await fetchSanity<BreakingItem[]>(
       BREAKING_NEWS_QUERY,
       {},
       { tags: ["breaking-news"], revalidate: 30 }
-    )) || breakingItems
-  );
+    )) || breakingItems;
+
+  if (locale === "ha") {
+    return items.map((item) => ({
+      ...item,
+      label: item.label === "Developing" ? "Sabon Bayani" : item.label === "Live" ? "Kai tsaye" : item.label,
+      headline:
+        item.headline === "Global Cities Summit publishes first climate-project shortlist"
+          ? "Taron Biranen Duniya ya wallafa jerin gwanayen ayyukan yanayi na farko"
+          : item.headline === "Follow verified updates from the summit floor"
+          ? "Bi ingantattun sabuntawa kai tsaye daga dakin taron"
+          : item.headline,
+    }));
+  }
+
+  return items;
 }
 
 export async function getHomepageModules(): Promise<HomepageModule[]> {
@@ -253,31 +278,33 @@ export async function getStoriesByTag(slug: string, page = 1) {
   );
 }
 
-export async function getCategory(slug: string): Promise<Category | null> {
+export async function getCategory(slug: string, locale?: string): Promise<Category | null> {
   const cmsCategory = await fetchSanity<Category>(
     CATEGORY_BY_SLUG_QUERY,
     { slug },
     { tags: ["category", `category:${slug}`], revalidate: 600 }
   );
   const targetSlug = slug.toLowerCase();
-  return (
+  const found =
     cmsCategory ||
     categories.find((item) => item.slug.toLowerCase() === targetSlug) ||
     categories
       .flatMap((item) => item.children ?? [])
       .find((item) => item.slug.toLowerCase() === targetSlug) ||
-    null
-  );
+    null;
+
+  return found ? localizeCategory(found, locale) : null;
 }
 
-export async function getCategories(): Promise<Category[]> {
-  return (
+export async function getCategories(locale?: string): Promise<Category[]> {
+  const items =
     (await fetchSanity<Category[]>(
       CATEGORIES_QUERY,
       {},
       { tags: ["category"], revalidate: 600 }
-    )) || categories
-  );
+    )) || categories;
+
+  return items.map((cat) => localizeCategory(cat, locale));
 }
 
 export async function getPerson(slug: string): Promise<Person | null> {

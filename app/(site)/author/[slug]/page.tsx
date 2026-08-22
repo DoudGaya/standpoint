@@ -12,6 +12,9 @@ import {
 import { personJsonLd } from "@/lib/seo/jsonld";
 import styles from "../../people.module.css";
 
+import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { getCurrentLocale } from "@/lib/i18n/server";
+
 type Props = {
   params: Promise<{ slug: string }>;
 };
@@ -40,9 +43,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function AuthorPage({ params }: Props) {
   const { slug } = await params;
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
+
   const [person, stories] = await Promise.all([
     getPerson(slug),
-    getStoriesByAuthor(slug),
+    getStoriesByAuthor(slug, 1),
   ]);
   if (!person) notFound();
 
@@ -51,7 +57,7 @@ export default async function AuthorPage({ params }: Props) {
       <header className={styles.profileHeader}>
         <div className={`container ${styles.profileGrid}`}>
           <div>
-            <span className="eyebrow">GlobHub newsroom</span>
+            <span className="eyebrow">{dict.nav.ourNewsroom}</span>
             <h1 className="page-title">{person.name}</h1>
             <p className={styles.profileTitle}>{person.title}</p>
             <p className={styles.profileBio}>
@@ -84,15 +90,15 @@ export default async function AuthorPage({ params }: Props) {
       </header>
       <section className={`container section ${styles.authorStories}`}>
         <div className="rule-heading">
-          <h2 className="section-title">Reporting by {person.name}</h2>
+          <h2 className="section-title">{dict.author.articlesBy} {person.name}</h2>
         </div>
         <div className={styles.authorStoryGrid}>
           {stories.length ? (
             stories.map((story) => <StoryCard story={story} key={story.id} />)
           ) : (
             <p>
-              No public stories are currently assigned to this profile.{" "}
-              <Link className="link" href="/latest">Browse the latest news.</Link>
+              {dict.author.noArticlesYet}{" "}
+              <Link className="link" href="/latest">{dict.listing.browseLatest}.</Link>
             </p>
           )}
         </div>

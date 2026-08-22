@@ -19,6 +19,36 @@ test("i18n configuration and dictionary loading", () => {
   assert.equal(haDict.home.latest, "Sabuwar Mafi Kani");
 });
 
+import { localizeCategory } from "../lib/i18n/categories";
+import { formatDate } from "../lib/site";
+
+test("category localization for English and Hausa", () => {
+  const worldCat = {
+    id: "cat-world",
+    title: "World",
+    slug: "world",
+    description: "Global events, diplomacy and regional affairs.",
+    accent: "#006b82",
+    order: 1,
+  };
+
+  const enWorld = localizeCategory(worldCat, "en");
+  const haWorld = localizeCategory(worldCat, "ha");
+
+  assert.equal(enWorld.title, "World");
+  assert.equal(haWorld.title, "Duniya");
+  assert.equal(haWorld.description, "Abubuwan da ke faruwa a duniya, diflomasiyya da al'amuran yankuna.");
+});
+
+test("date formatting accepts locale parameter", () => {
+  const sampleDate = new Date("2026-08-16T12:00:00.000Z");
+  const enFormatted = formatDate(sampleDate, { day: "numeric", month: "long", year: "numeric" }, "en");
+  const haFormatted = formatDate(sampleDate, { day: "numeric", month: "long", year: "numeric" }, "ha");
+
+  assert.ok(enFormatted.includes("August"));
+  assert.ok(haFormatted.includes("Agusta") || haFormatted.includes("16"));
+});
+
 test("story filtering by language locale in seed content", () => {
   const enStories = stories.filter((s) => s.language === "en");
   const haStories = stories.filter((s) => s.language === "ha");

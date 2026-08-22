@@ -11,7 +11,8 @@ import {
   getPodcastShows,
   getVideos,
 } from "@/lib/content/repository";
-import { getCurrentLocale, getDictionary } from "@/lib/i18n/get-dictionary";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
+import { getCurrentLocale } from "@/lib/i18n/server";
 import { LeadPackage } from "@/components/editorial/LeadPackage";
 import { StoryCard } from "@/components/editorial/StoryCard";
 import { RankedList } from "@/components/editorial/RankedList";

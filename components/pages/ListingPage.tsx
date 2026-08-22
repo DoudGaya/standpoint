@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { Story } from "@/lib/content/types";
+import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
+import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { AdSlot } from "@/components/editorial/AdSlot";
 import { RankedList } from "@/components/editorial/RankedList";
 import { StoryCard } from "@/components/editorial/StoryCard";
@@ -13,6 +15,7 @@ export function ListingPage({
   page = 1,
   basePath,
   accent,
+  locale = DEFAULT_LOCALE,
 }: {
   eyebrow: string;
   title: string;
@@ -21,7 +24,10 @@ export function ListingPage({
   page?: number;
   basePath: string;
   accent?: string;
+  locale?: Locale;
 }) {
+  const dict = getDictionary(locale);
+
   return (
     <>
       <header className={styles.listingHeader} style={{ "--section-accent": accent } as React.CSSProperties}>
@@ -44,23 +50,20 @@ export function ListingPage({
             ))
           ) : (
             <div className={styles.empty}>
-              <span>Nothing published here yet</span>
-              <h2>The desk is still working on this section.</h2>
-              <p>
-                Try the latest page or search across GlobHub Media while editors
-                prepare new coverage.
-              </p>
-              <Link href="/latest" className="button">Browse latest stories</Link>
+              <span>{dict.listing.nothingPublished}</span>
+              <h2>{dict.listing.deskWorking}</h2>
+              <p>{dict.listing.emptyDesc}</p>
+              <Link href="/latest" className="button">{dict.listing.browseLatest}</Link>
             </div>
           )}
           {stories.length ? (
             <nav aria-label="Pagination" className={styles.pagination}>
               {page > 1 ? (
-                <Link href={`${basePath}?page=${page - 1}`}>← Newer</Link>
+                <Link href={`${basePath}?page=${page - 1}`}>{dict.listing.newer}</Link>
               ) : <span />}
-              <span>Page {page}</span>
+              <span>{dict.listing.page} {page}</span>
               {stories.length >= 12 ? (
-                <Link href={`${basePath}?page=${page + 1}`}>Older →</Link>
+                <Link href={`${basePath}?page=${page + 1}`}>{dict.listing.older}</Link>
               ) : <span />}
             </nav>
           ) : null}
@@ -68,7 +71,7 @@ export function ListingPage({
         <aside className={styles.listingRail}>
           <AdSlot placement="category-sidebar" desktopSize="300 × 250" />
           {stories.length > 2 ? (
-            <RankedList title={`Popular in ${title}`} stories={stories.slice(0, 5)} />
+            <RankedList title={`${dict.listing.popularIn} ${title}`} stories={stories.slice(0, 5)} />
           ) : null}
         </aside>
       </div>
