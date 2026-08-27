@@ -10,6 +10,7 @@ import {
   people,
   podcastEpisodes,
   podcastShows,
+  radioBulletins,
   siteSettings,
   stories,
   videos,
@@ -17,6 +18,7 @@ import {
 import type {
   Category,
   Person,
+  RadioBulletin,
   SearchFilters,
   SearchResult,
   Story,
@@ -487,5 +489,29 @@ export async function getActiveAdCampaign(
     {},
     { tags: ["adCampaign"], revalidate: 60 }
   );
+}
+
+import { RADIO_BULLETINS_QUERY } from "@/sanity/queries/media";
+
+export async function getRadioBulletins(locale?: string): Promise<RadioBulletin[]> {
+  const cmsResult = await fetchSanity<RadioBulletin[]>(
+    RADIO_BULLETINS_QUERY,
+    {},
+    { tags: ["radioBulletin"], revalidate: 60 }
+  );
+
+  const rawList = cmsResult || radioBulletins;
+
+  if (locale === "ha") {
+    return rawList
+      .filter((item) => item.language === "ha" || item.language === "all")
+      .map((item) => ({
+        ...item,
+        title: item.titleHa || item.title,
+        summary: item.summaryHa || item.summary,
+      }));
+  }
+
+  return rawList.filter((item) => item.language === "en" || item.language === "all");
 }
 

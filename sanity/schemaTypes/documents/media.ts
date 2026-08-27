@@ -233,3 +233,105 @@ export const podcastEpisode = defineType({
   },
 });
 
+export const radioBulletin = defineType({
+  name: "radioBulletin",
+  title: "GlobHub Radio Bulletin",
+  type: "document",
+  fields: [
+    defineField({
+      name: "title",
+      title: "Title (English)",
+      type: "string",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "titleHa",
+      title: "Title (Hausa)",
+      type: "string",
+    }),
+    defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: { source: "title" },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "summary",
+      title: "Summary (English)",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({
+      name: "summaryHa",
+      title: "Summary (Hausa)",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({
+      name: "bulletinType",
+      title: "Bulletin type",
+      type: "string",
+      options: {
+        list: [
+          { title: "Hourly News Briefing", value: "hourly" },
+          { title: "Daily Headlines", value: "daily" },
+          { title: "Breaking News Audio", value: "breaking" },
+          { title: "Narrated Article", value: "article" },
+        ],
+      },
+      initialValue: "hourly",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "language",
+      title: "Language setting",
+      type: "string",
+      options: {
+        list: [
+          { title: "English (en)", value: "en" },
+          { title: "Hausa (ha)", value: "ha" },
+          { title: "All languages", value: "all" },
+        ],
+      },
+      initialValue: "all",
+    }),
+    defineField({
+      name: "audioUrl",
+      title: "Audio URL / Stream link",
+      type: "url",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "duration",
+      title: "Duration (e.g. 3:45)",
+      type: "string",
+      initialValue: "3:30",
+    }),
+    defineField({
+      name: "presenter",
+      title: "Presenter / Anchor",
+      type: "string",
+    }),
+    defineField({
+      name: "cover",
+      title: "Cover / Thumbnail image",
+      type: "editorialImage",
+    }),
+    defineField({
+      name: "publishedAt",
+      title: "Published at",
+      type: "datetime",
+      validation: (rule) => rule.required(),
+    }),
+  ],
+  preview: {
+    select: { title: "title", titleHa: "titleHa", type: "bulletinType", media: "cover" },
+    prepare: ({ title, titleHa, type, media }) => ({
+      title: titleHa ? `${title} / ${titleHa}` : title,
+      subtitle: `Radio Bulletin · ${type || "General"}`,
+      media,
+    }),
+  },
+});
+

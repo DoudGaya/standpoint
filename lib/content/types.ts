@@ -234,6 +234,23 @@ export type PodcastEpisode = {
   transcript?: string;
 };
 
+export type RadioBulletin = {
+  id: string;
+  title: string;
+  titleHa?: string;
+  slug: string;
+  summary: string;
+  summaryHa?: string;
+  bulletinType: "hourly" | "daily" | "breaking" | "article";
+  audioUrl: string;
+  duration: string;
+  publishedAt: string;
+  language: string;
+  presenter?: string;
+  cover?: EditorialImage;
+  storySlug?: string;
+};
+
 export type LiveEntry = {
   id: string;
   timestamp: string;

@@ -28,7 +28,7 @@ import { adCampaign, adPlacement, advertiser } from "./documents/commercial";
 import { factCheck } from "./documents/factCheck";
 import { correction, editorialPolicy } from "./documents/governance";
 import { liveEvent } from "./documents/liveEvent";
-import { podcastEpisode, podcastShow, video } from "./documents/media";
+import { podcastEpisode, podcastShow, radioBulletin, video } from "./documents/media";
 import { department, team } from "./documents/organization";
 import { person } from "./documents/person";
 import { event, newsletter, newsletterEdition } from "./documents/products";
@@ -84,6 +84,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   video,
   podcastShow,
   podcastEpisode,
+  radioBulletin,
   liveEvent,
   factCheck,
   newsletter,

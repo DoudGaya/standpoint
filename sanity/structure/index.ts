@@ -79,6 +79,7 @@ export const structure: StructureResolver = (S) =>
           S.list()
             .title("Multimedia")
             .items([
+              S.documentTypeListItem("radioBulletin").title("GlobHub Radio bulletins"),
               S.documentTypeListItem("video").title("Videos and live streams"),
               S.documentTypeListItem("podcastShow").title("Podcast shows"),
               S.documentTypeListItem("podcastEpisode").title("Podcast episodes"),

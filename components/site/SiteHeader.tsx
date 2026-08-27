@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Headphones, Search, UserRound, Video } from "lucide-react";
+import { Headphones, Radio, Search, UserRound, Video } from "lucide-react";
 import type {
   BreakingItem,
   Navigation,
@@ -55,8 +55,8 @@ export function SiteHeader({
             <Link href="/watch-live">
               <Video size={14} /> {dict.header.watchLive}
             </Link>
-            <Link href="/audio">
-              <Headphones size={14} /> {dict.header.listen}
+            <Link href="/radio">
+              <Radio size={14} /> {dict.radio.title}
             </Link>
             <Link href="/search" aria-label={dict.header.search}>
               <Search size={14} /> {dict.header.search}

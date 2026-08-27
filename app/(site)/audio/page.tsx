@@ -1,2 +1,2 @@
-export { metadata, default } from "../podcasts/page";
+export { metadata, default } from "../radio/page";
 

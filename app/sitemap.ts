@@ -21,6 +21,7 @@ const staticPaths = [
   "/video",
   "/watch-live",
   "/audio",
+  "/radio",
   "/podcasts",
   "/live",
   "/fact-check",

@@ -113,6 +113,24 @@ export const enDictionary = {
     rights: "All rights reserved.",
     disclaimer: "GlobHub Media is a demonstration news platform with verified multi-language coverage.",
   },
+  radio: {
+    title: "GlobHub Radio",
+    tagline: "Live audio news bulletins, briefings and podcasts on demand.",
+    liveSignal: "LIVE ON-AIR",
+    listenNow: "Listen Now",
+    pause: "Pause",
+    play: "Play",
+    hourlyBriefing: "Hourly News Briefings",
+    dailyHeadlines: "Daily Headlines",
+    audioArticles: "Audio Narrated Stories",
+    podcasts: "Podcasts & Shows",
+    allBulletins: "All Audio Bulletins",
+    nowPlaying: "Now Playing",
+    speed: "Speed",
+    presenter: "Presenter",
+    duration: "Duration",
+    switchLanguage: "Hausa Audio Briefings",
+  },
 };
 
 export type Dictionary = typeof enDictionary;

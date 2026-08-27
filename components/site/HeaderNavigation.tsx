@@ -4,6 +4,7 @@ import {
   ChevronDown,
   Headphones,
   Menu,
+  Radio,
   Search,
   UserRound,
   Video,
@@ -229,8 +230,8 @@ export function HeaderNavigation({
             <Link href="/watch-live" onClick={() => setMobileOpen(false)}>
               <Video size={18} /> {dict.header.watchLive}
             </Link>
-            <Link href="/audio" onClick={() => setMobileOpen(false)}>
-              <Headphones size={18} /> {dict.header.listen}
+            <Link href="/radio" onClick={() => setMobileOpen(false)}>
+              <Radio size={18} /> {dict.radio.title}
             </Link>
           </div>
           <nav className={styles.mobileNav} aria-label="Mobile primary">

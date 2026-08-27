@@ -50,6 +50,7 @@ export function SiteFooter({
         <div className={styles.footerColumn}>
           <h2>{dict.footer.moreFrom}</h2>
           <Link href="/latest">{dict.nav.latest}</Link>
+          <Link href="/radio">{dict.radio.title}</Link>
           <Link href="/video">{dict.nav.video}</Link>
           <Link href="/podcasts">{dict.nav.podcasts}</Link>
           <Link href="/live">{dict.home.liveCoverage}</Link>
