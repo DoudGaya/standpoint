@@ -20,6 +20,7 @@ import {
   getStorySlugs,
 } from "@/lib/content/repository";
 import { storyJsonLd } from "@/lib/seo/jsonld";
+import { buildStoryMetadata } from "@/lib/seo/metadata";
 import { absoluteUrl, formatDateTime } from "@/lib/site";
 import styles from "./story.module.css";
 
@@ -34,41 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const story = await getStory(slug);
   if (!story) return {};
-
-  const canonical = story.canonicalUrl || absoluteUrl(`/story/${story.slug}`);
-  const categoryTitle = story.primaryCategory?.title || "News";
-  const authors = story.authors || [];
-  const tags = story.tags || [];
-  const topics = story.topics || [];
-
-  return {
-    title: story.seoTitle || story.headline,
-    description: story.seoDescription || story.standfirst,
-    alternates: { canonical },
-    authors: authors.map((author) => ({ name: author.name })),
-    openGraph: {
-      type: "article",
-      title: story.headline,
-      description: story.standfirst,
-      url: canonical,
-      publishedTime: story.publishedAt,
-      modifiedTime: story.updatedAt,
-      authors: authors.map((author) =>
-        absoluteUrl(`/author/${author.slug}`)
-      ),
-      section: categoryTitle,
-      tags: [...tags, ...topics],
-      images: story.hero?.url
-        ? [{ url: story.hero.url, alt: story.hero.alt }]
-        : undefined,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: story.headline,
-      description: story.standfirst,
-      images: story.hero?.url ? [story.hero.url] : undefined,
-    },
-  };
+  return buildStoryMetadata(story);
 }
 
 export default async function StoryPage({ params }: Props) {

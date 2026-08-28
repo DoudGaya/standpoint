@@ -1,8 +1,8 @@
 export const IMAGE_PROJECTION = `{
-  "url": asset->url,
-  "width": asset->metadata.dimensions.width,
-  "height": asset->metadata.dimensions.height,
-  "blurDataURL": asset->metadata.lqip,
+  "url": coalesce(asset->url, url),
+  "width": coalesce(asset->metadata.dimensions.width, width),
+  "height": coalesce(asset->metadata.dimensions.height, height),
+  "blurDataURL": coalesce(asset->metadata.lqip, blurDataURL),
   alt,
   caption,
   credit
@@ -67,7 +67,9 @@ const STORY_CARD_FIELDS = `
   publishedAt,
   updatedAt,
   readingTime,
-  "hero": heroMedia.image ${IMAGE_PROJECTION},
+  "hero": coalesce(socialImage, seo.socialImage, heroMedia.image, coverImage, mainImage, cover, heroImage, image) ${IMAGE_PROJECTION},
+  "socialImage": coalesce(socialImage, seo.socialImage, heroMedia.image, coverImage, mainImage, cover, heroImage, image) ${IMAGE_PROJECTION},
+  "coverImage": coalesce(coverImage, mainImage, heroMedia.image, socialImage, seo.socialImage, cover, heroImage, image) ${IMAGE_PROJECTION},
   featured,
   homepageEligible,
   trendingEligible,

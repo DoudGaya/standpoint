@@ -158,6 +158,8 @@ export type Story = {
   updatedAt?: string;
   readingTime: number;
   hero?: EditorialImage;
+  socialImage?: EditorialImage;
+  coverImage?: EditorialImage;
   body: BodyBlock[];
   relatedStorySlugs?: string[];
   correctionNote?: string;

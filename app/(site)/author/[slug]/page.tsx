@@ -10,6 +10,7 @@ import {
   getStoriesByAuthor,
 } from "@/lib/content/repository";
 import { personJsonLd } from "@/lib/seo/jsonld";
+import { absoluteUrl } from "@/lib/site";
 import styles from "../../people.module.css";
 
 import { getDictionary } from "@/lib/i18n/get-dictionary";
@@ -26,17 +27,30 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const person = await getPerson((await params).slug);
   if (!person) return {};
+  const ogImageUrl = person.image?.url ? absoluteUrl(person.image.url) : absoluteUrl("/og.png");
   return {
     title: person.name,
     description: person.shortBio,
     alternates: { canonical: `/author/${person.slug}` },
     openGraph: {
       type: "profile",
+      siteName: "GlobHub Media",
       title: person.name,
       description: person.shortBio,
-      images: person.image?.url
-        ? [{ url: person.image.url, alt: person.image.alt }]
-        : undefined,
+      images: [
+        {
+          url: ogImageUrl,
+          width: person.image?.width || 800,
+          height: person.image?.height || 800,
+          alt: person.image?.alt || person.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: person.name,
+      description: person.shortBio,
+      images: [ogImageUrl],
     },
   };
 }

@@ -5,7 +5,7 @@ import { MediaPlayer } from "@/components/media/MediaPlayer";
 import { Transcript } from "@/components/media/Transcript";
 import { getVideos } from "@/lib/content/repository";
 import { videoJsonLd } from "@/lib/seo/jsonld";
-import { formatDateTime } from "@/lib/site";
+import { absoluteUrl, formatDateTime } from "@/lib/site";
 import styles from "../../media-pages.module.css";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -19,15 +19,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const videos = await getVideos();
   const video = videos.find((item) => item.slug === slug);
   if (!video) return {};
+  const ogImageUrl = video.poster?.url ? absoluteUrl(video.poster.url) : absoluteUrl("/og.png");
   return {
     title: video.title,
     description: video.summary,
     alternates: { canonical: `/video/${video.slug}` },
     openGraph: {
       type: "video.other",
+      siteName: "GlobHub Media",
       title: video.title,
       description: video.summary,
-      images: [{ url: video.poster.url, alt: video.poster.alt }],
+      images: [
+        {
+          url: ogImageUrl,
+          width: video.poster?.width || 1200,
+          height: video.poster?.height || 675,
+          alt: video.poster?.alt || video.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: video.title,
+      description: video.summary,
+      images: [ogImageUrl],
     },
   };
 }

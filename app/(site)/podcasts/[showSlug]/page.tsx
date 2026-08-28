@@ -7,7 +7,7 @@ import {
   getPodcastShows,
 } from "@/lib/content/repository";
 import { podcastJsonLd } from "@/lib/seo/jsonld";
-import { formatDate } from "@/lib/site";
+import { absoluteUrl, formatDate } from "@/lib/site";
 import styles from "../../media-pages.module.css";
 
 type Props = { params: Promise<{ showSlug: string }> };
@@ -16,13 +16,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { showSlug } = await params;
   const shows = await getPodcastShows();
   const show = shows.find((item) => item.slug === showSlug);
-  return show
-    ? {
-        title: show.title,
-        description: show.description,
-        alternates: { canonical: `/podcasts/${show.slug}` },
-      }
-    : {};
+  if (!show) return {};
+  const ogImageUrl = show.cover?.url ? absoluteUrl(show.cover.url) : absoluteUrl("/og.png");
+  return {
+    title: show.title,
+    description: show.description,
+    alternates: { canonical: `/podcasts/${show.slug}` },
+    openGraph: {
+      type: "website",
+      siteName: "GlobHub Media",
+      title: show.title,
+      description: show.description,
+      images: [
+        {
+          url: ogImageUrl,
+          width: show.cover?.width || 1200,
+          height: show.cover?.height || 1200,
+          alt: show.cover?.alt || show.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: show.title,
+      description: show.description,
+      images: [ogImageUrl],
+    },
+  };
 }
 
 export default async function PodcastShowPage({ params }: Props) {

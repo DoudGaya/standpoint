@@ -50,6 +50,9 @@ function articleType(story: Story) {
 }
 
 export function storyJsonLd(story: Story) {
+  const ogImage = story.socialImage || story.hero || story.coverImage;
+  const imageUrl = ogImage?.url ? absoluteUrl(ogImage.url) : absoluteUrl("/og.png");
+
   return {
     "@context": "https://schema.org",
     "@type": articleType(story),
@@ -58,7 +61,7 @@ export function storyJsonLd(story: Story) {
     datePublished: story.publishedAt,
     dateModified: story.updatedAt || story.publishedAt,
     mainEntityOfPage: absoluteUrl(`/story/${story.slug}`),
-    image: story.hero?.url ? [absoluteUrl(story.hero.url)] : undefined,
+    image: [imageUrl],
     author: story.authors.map(personJsonLd),
     publisher: organizationJsonLd(),
     articleSection: story.primaryCategory.title,

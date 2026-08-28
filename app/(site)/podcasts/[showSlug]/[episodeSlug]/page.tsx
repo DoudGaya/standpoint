@@ -5,7 +5,7 @@ import {
   getPodcastEpisodes,
   getPodcastShows,
 } from "@/lib/content/repository";
-import { formatDate } from "@/lib/site";
+import { absoluteUrl, formatDate } from "@/lib/site";
 import styles from "../../../media-pages.module.css";
 
 type Props = {
@@ -14,16 +14,38 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { showSlug, episodeSlug } = await params;
-  const episode = (await getPodcastEpisodes(showSlug)).find(
-    (item) => item.slug === episodeSlug
-  );
-  return episode
-    ? {
-        title: episode.title,
-        description: episode.summary,
-        alternates: { canonical: `/podcasts/${showSlug}/${episodeSlug}` },
-      }
-    : {};
+  const [show, episodes] = await Promise.all([
+    getPodcastShows().then((items) => items.find((item) => item.slug === showSlug)),
+    getPodcastEpisodes(showSlug),
+  ]);
+  const episode = episodes.find((item) => item.slug === episodeSlug);
+  if (!episode) return {};
+  const ogImageUrl = show?.cover?.url ? absoluteUrl(show.cover.url) : absoluteUrl("/og.png");
+  return {
+    title: episode.title,
+    description: episode.summary,
+    alternates: { canonical: `/podcasts/${showSlug}/${episodeSlug}` },
+    openGraph: {
+      type: "article",
+      siteName: "GlobHub Media",
+      title: episode.title,
+      description: episode.summary,
+      images: [
+        {
+          url: ogImageUrl,
+          width: show?.cover?.width || 1200,
+          height: show?.cover?.height || 1200,
+          alt: show?.cover?.alt || episode.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: episode.title,
+      description: episode.summary,
+      images: [ogImageUrl],
+    },
+  };
 }
 
 export default async function EpisodePage({ params }: Props) {

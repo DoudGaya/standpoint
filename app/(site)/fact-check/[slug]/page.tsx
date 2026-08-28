@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { EditorialImage } from "@/components/editorial/EditorialImage";
 import { getFactChecks } from "@/lib/content/repository";
 import { factCheckJsonLd } from "@/lib/seo/jsonld";
-import { formatDate } from "@/lib/site";
+import { absoluteUrl, formatDate } from "@/lib/site";
 import styles from "../fact-check.module.css";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -13,13 +13,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const factChecks = await getFactChecks();
   const factCheck = factChecks.find((item) => item.slug === slug);
-  return factCheck
-    ? {
-        title: factCheck.title,
-        description: factCheck.conclusion,
-        alternates: { canonical: `/fact-check/${factCheck.slug}` },
-      }
-    : {};
+  if (!factCheck) return {};
+  const ogImageUrl = factCheck.image?.url ? absoluteUrl(factCheck.image.url) : absoluteUrl("/og.png");
+  return {
+    title: factCheck.title,
+    description: factCheck.conclusion,
+    alternates: { canonical: `/fact-check/${factCheck.slug}` },
+    openGraph: {
+      type: "article",
+      siteName: "GlobHub Media",
+      title: factCheck.title,
+      description: factCheck.conclusion,
+      images: [
+        {
+          url: ogImageUrl,
+          width: factCheck.image?.width || 1200,
+          height: factCheck.image?.height || 630,
+          alt: factCheck.image?.alt || factCheck.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: factCheck.title,
+      description: factCheck.conclusion,
+      images: [ogImageUrl],
+    },
+  };
 }
 
 export default async function FactCheckDetailPage({ params }: Props) {

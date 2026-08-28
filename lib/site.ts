@@ -1,16 +1,32 @@
 export function getSiteUrl() {
-  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  const configured =
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+    process.env.SITE_URL?.trim() ||
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : undefined) ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined);
+
   if (!configured) return new URL("http://localhost:3000");
 
   try {
-    return new URL(configured);
+    const withProtocol =
+      configured.startsWith("http://") || configured.startsWith("https://")
+        ? configured
+        : `https://${configured}`;
+    return new URL(withProtocol);
   } catch {
     return new URL("http://localhost:3000");
   }
 }
 
 export function absoluteUrl(pathname = "/") {
-  return new URL(pathname, getSiteUrl()).toString();
+  if (!pathname) return getSiteUrl().toString();
+  if (pathname.startsWith("http://") || pathname.startsWith("https://")) {
+    return pathname;
+  }
+  const cleanPath = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  return new URL(cleanPath, getSiteUrl()).toString();
 }
 
 export function formatDate(

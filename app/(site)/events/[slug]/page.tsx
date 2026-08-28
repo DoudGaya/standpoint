@@ -3,7 +3,7 @@ import { CalendarDays, MapPin } from "lucide-react";
 import { notFound } from "next/navigation";
 import { EditorialImage } from "@/components/editorial/EditorialImage";
 import { getEvents } from "@/lib/content/repository";
-import { formatDateTime } from "@/lib/site";
+import { absoluteUrl, formatDateTime } from "@/lib/site";
 import styles from "../../service-pages.module.css";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -12,13 +12,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const events = await getEvents();
   const event = events.find((item) => item.slug === slug);
-  return event
-    ? {
-        title: event.title,
-        description: event.summary,
-        alternates: { canonical: `/events/${event.slug}` },
-      }
-    : {};
+  if (!event) return {};
+  const ogImageUrl = event.image?.url ? absoluteUrl(event.image.url) : absoluteUrl("/og.png");
+  return {
+    title: event.title,
+    description: event.summary,
+    alternates: { canonical: `/events/${event.slug}` },
+    openGraph: {
+      type: "article",
+      siteName: "GlobHub Media",
+      title: event.title,
+      description: event.summary,
+      images: [
+        {
+          url: ogImageUrl,
+          width: event.image?.width || 1200,
+          height: event.image?.height || 630,
+          alt: event.image?.alt || event.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: event.title,
+      description: event.summary,
+      images: [ogImageUrl],
+    },
+  };
 }
 
 export default async function EventDetailPage({ params }: Props) {

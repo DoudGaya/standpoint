@@ -7,6 +7,8 @@ import {
 } from "@/lib/content/repository";
 import { getCurrentLocale } from "@/lib/i18n/server";
 
+import { absoluteUrl } from "@/lib/site";
+
 type Props = {
   params: Promise<{ slug: string; child: string }>;
   searchParams: Promise<{ page?: string }>;
@@ -17,10 +19,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = await getCurrentLocale();
   const category = await getCategory(child, locale);
   if (!category || category.parentSlug !== slug) return {};
+  const canonical = `/category/${slug}/${child}`;
+  const ogImageUrl = absoluteUrl("/og.png");
   return {
     title: category.title,
     description: category.description,
-    alternates: { canonical: `/category/${slug}/${child}` },
+    alternates: { canonical },
+    openGraph: {
+      type: "website",
+      siteName: "GlobHub Media",
+      title: category.title,
+      description: category.description,
+      url: canonical,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: category.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: category.title,
+      description: category.description,
+      images: [ogImageUrl],
+    },
   };
 }
 

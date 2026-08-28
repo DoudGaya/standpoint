@@ -5,7 +5,7 @@ import { LiveTimeline } from "@/components/live/LiveTimeline";
 import { EditorialImage } from "@/components/editorial/EditorialImage";
 import { getLiveEvents } from "@/lib/content/repository";
 import { liveEventJsonLd } from "@/lib/seo/jsonld";
-import { formatDateTime } from "@/lib/site";
+import { absoluteUrl, formatDateTime } from "@/lib/site";
 import styles from "../live-page.module.css";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -14,19 +14,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const events = await getLiveEvents();
   const event = events.find((item) => item.slug === slug);
-  return event
-    ? {
-        title: event.title,
-        description: event.summary,
-        alternates: { canonical: `/live/${event.slug}` },
-        openGraph: {
-          type: "article",
-          title: event.title,
-          description: event.summary,
-          images: [{ url: event.cover.url, alt: event.cover.alt }],
+  if (!event) return {};
+  const ogImageUrl = event.cover?.url ? absoluteUrl(event.cover.url) : absoluteUrl("/og.png");
+  return {
+    title: event.title,
+    description: event.summary,
+    alternates: { canonical: `/live/${event.slug}` },
+    openGraph: {
+      type: "article",
+      siteName: "GlobHub Media",
+      title: event.title,
+      description: event.summary,
+      images: [
+        {
+          url: ogImageUrl,
+          width: event.cover?.width || 1200,
+          height: event.cover?.height || 630,
+          alt: event.cover?.alt || event.title,
         },
-      }
-    : {};
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: event.title,
+      description: event.summary,
+      images: [ogImageUrl],
+    },
+  };
 }
 
 export default async function LiveDetailPage({ params }: Props) {
