@@ -14,8 +14,9 @@ export function JobBoard({ initialJobs = [] }: { initialJobs?: JobListing[] }) {
   const jobTypes = ["All", "Full-time", "Part-time", "Contract", "Internship", "Remote"];
 
   const filteredJobs = initialJobs.filter((job) => {
+    const title = job.title || "";
     const matchesSearch =
-      job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (job.description || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
       (job.department || "").toLowerCase().includes(searchQuery.toLowerCase());
     const matchesDept = selectedDept === "All" || job.department === selectedDept;
@@ -92,24 +93,29 @@ export function JobBoard({ initialJobs = [] }: { initialJobs?: JobListing[] }) {
           <div className={styles.jobGrid}>
             {filteredJobs.map((job) => {
               const jobSlug = job.slug || job.id;
+              const postedDate =
+                typeof job.postedAt === "string" && job.postedAt.includes("T")
+                  ? `Posted ${job.postedAt.split("T")[0]}`
+                  : typeof job.postedAt === "string" && job.postedAt
+                  ? `Posted ${job.postedAt}`
+                  : "Active";
+
               return (
                 <article key={job.id} className={styles.jobCard}>
                   <div>
                     <div className={styles.jobMeta}>
-                      <span className={styles.deptTag}>{job.department}</span>
-                      <span className={styles.typeTag}>· {job.type}</span>
+                      <span className={styles.deptTag}>{job.department || "Editorial"}</span>
+                      <span className={styles.typeTag}>· {job.type || "Full-time"}</span>
                     </div>
                     <h3 className={styles.jobTitle}>
-                      <Link href={`/jobs/${jobSlug}`}>{job.title}</Link>
+                      <Link href={`/jobs/${jobSlug}`}>{job.title || "Job Vacancy"}</Link>
                     </h3>
-                    <div className={styles.jobLocation}>{job.location}</div>
+                    <div className={styles.jobLocation}>{job.location || "Remote"}</div>
                     <p className={styles.jobDesc}>{job.description}</p>
                   </div>
 
                   <div className={styles.jobFooter}>
-                    <span className={styles.postedDate}>
-                      {job.postedAt ? `Posted ${job.postedAt.split("T")[0]}` : "Active"}
-                    </span>
+                    <span className={styles.postedDate}>{postedDate}</span>
                     <div className={styles.actionGroup}>
                       <Link href={`/jobs/${jobSlug}`} className={styles.viewDetailsLink}>
                         View Details

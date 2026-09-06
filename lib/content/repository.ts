@@ -533,13 +533,22 @@ export async function getJobListings(): Promise<JobListing[]> {
 }
 
 export async function getJobBySlug(slug: string): Promise<JobListing | null> {
+  const decodedSlug = decodeURIComponent(slug).toLowerCase().trim();
   const cmsResult = await fetchSanity<JobListing>(
     JOB_BY_SLUG_QUERY,
-    { slug },
-    { tags: ["jobListing", `jobListing:${slug}`], revalidate: 60 }
+    { slug: decodedSlug },
+    { tags: ["jobListing", `jobListing:${decodedSlug}`], revalidate: 60 }
   );
 
-  return cmsResult || null;
+  if (cmsResult) return cmsResult;
+
+  // If exact query matched nothing (e.g., casing/whitespace difference), fallback to listing check
+  const allJobs = await getJobListings();
+  return (
+    allJobs.find(
+      (j) => j.slug && decodeURIComponent(j.slug).toLowerCase().trim() === decodedSlug
+    ) || null
+  );
 }
 
 export async function getJobSlugs(): Promise<Array<{ slug: string; updatedAt?: string }>> {

@@ -10,7 +10,9 @@ type Props = {
 
 export async function generateStaticParams() {
   const jobs = await getJobSlugs();
-  return jobs.map((job) => ({ slug: job.slug }));
+  return jobs
+    .filter((job) => Boolean(job && job.slug))
+    .map((job) => ({ slug: job.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -21,10 +23,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "Vacancy Not Found | GlobHub Media" };
   }
 
+  const jobTitle = job.title ? `${job.title} — Careers | GlobHub Media` : "Careers | GlobHub Media";
+  const description = typeof job.description === "string" ? job.description.slice(0, 160) : "";
+  const canonicalSlug = job.slug || slug;
+
   return {
-    title: `${job.title} — Careers | GlobHub Media`,
-    description: job.description.slice(0, 160),
-    alternates: { canonical: `/jobs/${job.slug}` },
+    title: jobTitle,
+    description,
+    alternates: { canonical: `/jobs/${canonicalSlug}` },
   };
 }
 
@@ -36,6 +42,13 @@ export default async function JobDetailPage({ params }: Props) {
     notFound();
   }
 
+  const postedDate =
+    typeof job.postedAt === "string" && job.postedAt.includes("T")
+      ? job.postedAt.split("T")[0]
+      : typeof job.postedAt === "string"
+      ? job.postedAt
+      : "";
+
   return (
     <article>
       <header className={styles.detailHeader}>
@@ -43,15 +56,19 @@ export default async function JobDetailPage({ params }: Props) {
           <Link href="/jobs" className={styles.backLink}>
             ← Back to all vacancies
           </Link>
-          <span className="eyebrow">{job.department} · {job.type}</span>
-          <h1 className={styles.detailTitle}>{job.title}</h1>
+          <span className="eyebrow">
+            {job.department || "Editorial"} · {job.type || "Full-time"}
+          </span>
+          <h1 className={styles.detailTitle}>{job.title || "Job Vacancy"}</h1>
           <div className={styles.detailMetaBar}>
-            <div className={styles.detailMetaItem}>
-              <strong>Location:</strong> {job.location}
-            </div>
-            {job.postedAt && (
+            {job.location && (
               <div className={styles.detailMetaItem}>
-                <strong>Posted:</strong> {job.postedAt.split("T")[0]}
+                <strong>Location:</strong> {job.location}
+              </div>
+            )}
+            {postedDate && (
+              <div className={styles.detailMetaItem}>
+                <strong>Posted:</strong> {postedDate}
               </div>
             )}
             {job.closingDate && (
@@ -67,7 +84,7 @@ export default async function JobDetailPage({ params }: Props) {
         <div className={styles.detailBody}>
           <section className={styles.detailSection}>
             <h2>About the Role</h2>
-            <p>{job.description}</p>
+            <p>{typeof job.description === "string" ? job.description : "No description provided."}</p>
           </section>
 
           {job.googleFormUrl ? (
