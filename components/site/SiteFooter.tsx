@@ -70,6 +70,7 @@ export function SiteFooter({
           <Link href="/corrections">{dict.footer.corrections}</Link>
           <Link href="/accessibility">{dict.footer.accessibility}</Link>
           <Link href="/contact">Contact</Link>
+          <Link href="/jobs">{dict.footer.jobs}</Link>
         </div>
       </div>
       <div className={styles.footerLegal}>

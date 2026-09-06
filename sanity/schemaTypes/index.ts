@@ -30,6 +30,7 @@ import { correction, editorialPolicy } from "./documents/governance";
 import { liveEvent } from "./documents/liveEvent";
 import { podcastEpisode, podcastShow, radioBulletin, video } from "./documents/media";
 import { department, team } from "./documents/organization";
+import { jobListing } from "./documents/jobListing";
 import { person } from "./documents/person";
 import { event, newsletter, newsletterEdition } from "./documents/products";
 import {
@@ -102,5 +103,6 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   footer,
   page,
   redirect,
+  jobListing,
 ];
 

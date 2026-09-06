@@ -108,6 +108,7 @@ export const structure: StructureResolver = (S) =>
               S.documentTypeListItem("person").title("Staff and contributors"),
               S.documentTypeListItem("team").title("Teams"),
               S.documentTypeListItem("department").title("Departments"),
+              S.documentTypeListItem("jobListing").title("Job vacancies & postings"),
             ])
         ),
       S.listItem()

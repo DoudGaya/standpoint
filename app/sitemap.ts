@@ -36,6 +36,7 @@ const staticPaths = [
   "/contact",
   "/advertise",
   "/careers",
+  "/jobs",
   "/editorial-policy",
   "/corrections",
   "/fact-checking-methodology",

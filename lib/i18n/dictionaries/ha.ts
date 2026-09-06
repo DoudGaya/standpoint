@@ -112,6 +112,8 @@ export const haDictionary: Dictionary = {
     cookies: "Manufar Kukis",
     accessibility: "Samun Dama",
     corrections: "Gyara & Bayanai",
+    jobs: "Ayyuka & Guraban Aiki",
+    postJob: "Tattace/Buga Gurbin Aiki",
     rights: "An kiyaye duk haƙƙoƙi.",
     disclaimer: "GlobHub Media dandamali ne na nuna labarai tare da ingantaccen ɗaukar nauyin harsuna da yawa.",
   },

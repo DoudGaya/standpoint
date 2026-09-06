@@ -1,0 +1,340 @@
+/* Standard GlobHub Media website branding & typography for Careers / Jobs */
+
+.jobsPageHeader {
+  border-bottom: 1px solid var(--line, #e2e8f0);
+  background: var(--paper-alt, #f8fafc);
+  padding-block: clamp(2.5rem, 5vw, 4.5rem);
+  margin-bottom: 2.5rem;
+}
+
+.jobsPageHeader h1 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  color: var(--brand, #0f172a);
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.1;
+}
+
+.jobsPageHeader p {
+  max-width: 65ch;
+  color: var(--muted, #64748b);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.filterSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line, #e2e8f0);
+  margin-bottom: 2.5rem;
+}
+
+.filterControls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.searchInput, .selectControl {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--line, #cbd5e1);
+  background: #ffffff;
+  color: var(--text-color, #1e293b);
+  font-family: inherit;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.searchInput:focus, .selectControl:focus {
+  border-color: var(--cyan-accessible, #006b82);
+}
+
+.searchInput {
+  min-width: 260px;
+}
+
+.jobGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.jobCard {
+  border-bottom: 2px solid var(--line, #e2e8f0);
+  padding-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.2s ease;
+}
+
+.jobCard:hover {
+  border-bottom-color: var(--cyan-accessible, #006b82);
+}
+
+.jobMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.deptTag {
+  color: var(--cyan-accessible, #006b82);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.typeTag {
+  color: var(--muted, #64748b);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.jobTitle {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+  color: var(--brand, #0f172a);
+  margin: 0.25rem 0 0.5rem 0;
+  line-height: 1.25;
+}
+
+.jobTitle a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.jobTitle a:hover {
+  color: var(--cyan-accessible, #006b82);
+}
+
+.jobLocation {
+  font-size: 0.85rem;
+  color: var(--muted, #64748b);
+  margin-bottom: 1rem;
+}
+
+.jobDesc {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1rem;
+  color: #34313a;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.jobFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line, #f1f5f9);
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.postedDate {
+  font-size: 0.78rem;
+  color: var(--muted, #94a3b8);
+}
+
+.actionGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.viewDetailsLink {
+  color: var(--brand, #0f172a);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+}
+
+.viewDetailsLink:hover {
+  color: var(--cyan-accessible, #006b82);
+  text-decoration: underline;
+}
+
+.applyLink {
+  color: var(--cyan-accessible, #006b82);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 0.15s ease;
+}
+
+.applyLink:hover {
+  color: var(--brand, #0f172a);
+  text-decoration: underline;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  border-top: 1px solid var(--line, #e2e8f0);
+  border-bottom: 1px solid var(--line, #e2e8f0);
+  color: var(--muted, #64748b);
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+.emptyState h3 {
+  font-size: 1.4rem;
+  color: var(--brand, #0f172a);
+  margin-bottom: 0.5rem;
+}
+
+/* Job Detail Page Styling */
+.detailHeader {
+  border-bottom: 1px solid var(--line, #e2e8f0);
+  background: var(--paper-alt, #f8fafc);
+  padding-block: clamp(2.5rem, 5vw, 4.5rem);
+  margin-bottom: 2.5rem;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--cyan-accessible, #006b82);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  margin-bottom: 1.25rem;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.detailTitle {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  color: var(--brand, #0f172a);
+  margin: 0.5rem 0 1rem 0;
+  line-height: 1.15;
+}
+
+.detailMetaBar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  color: var(--muted, #64748b);
+  font-size: 0.9rem;
+}
+
+.detailMetaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.detailBody {
+  max-width: 800px;
+  margin-bottom: 4rem;
+}
+
+.detailSection {
+  margin-bottom: 2.5rem;
+}
+
+.detailSection h2 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.6rem;
+  color: var(--brand, #0f172a);
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line, #e2e8f0);
+  padding-bottom: 0.5rem;
+}
+
+.detailSection p {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #34313a;
+  white-space: pre-wrap;
+}
+
+.applyBox {
+  border: 2px solid var(--brand, #0f172a);
+  background: var(--paper-alt, #f8fafc);
+  padding: 2rem;
+  border-radius: 4px;
+  margin-top: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.applyBox h3 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.4rem;
+  margin: 0 0 0.35rem 0;
+  color: var(--brand, #0f172a);
+}
+
+.applyBox p {
+  margin: 0;
+  color: var(--muted, #64748b);
+  font-size: 0.95rem;
+}
+
+.primaryApplyBtn {
+  background: var(--brand, #0f172a);
+  color: #ffffff;
+  padding: 0.85rem 1.85rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s ease;
+}
+
+.primaryApplyBtn:hover {
+  background: var(--cyan-accessible, #006b82);
+  color: #ffffff;
+}
+
+@media (max-width: 650px) {
+  .jobGrid {
+    grid-template-columns: 1fr;
+  }
+  .applyBox {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

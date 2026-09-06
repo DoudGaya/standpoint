@@ -110,6 +110,8 @@ export const enDictionary = {
     cookies: "Cookie Policy",
     accessibility: "Accessibility",
     corrections: "Corrections & Clarifications",
+    jobs: "Careers & Jobs",
+    postJob: "Post a Job",
     rights: "All rights reserved.",
     disclaimer: "GlobHub Media is a demonstration news platform with verified multi-language coverage.",
   },

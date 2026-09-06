@@ -515,3 +515,42 @@ export async function getRadioBulletins(locale?: string): Promise<RadioBulletin[
   return rawList.filter((item) => item.language === "en" || item.language === "all");
 }
 
+import {
+  JOB_LISTINGS_QUERY,
+  JOB_BY_SLUG_QUERY,
+  JOB_SLUGS_QUERY,
+} from "@/sanity/queries/jobs";
+import { JobListing } from "./jobs";
+
+export async function getJobListings(): Promise<JobListing[]> {
+  const cmsResult = await fetchSanity<JobListing[]>(
+    JOB_LISTINGS_QUERY,
+    {},
+    { tags: ["jobListing"], revalidate: 60 }
+  );
+
+  return cmsResult || [];
+}
+
+export async function getJobBySlug(slug: string): Promise<JobListing | null> {
+  const cmsResult = await fetchSanity<JobListing>(
+    JOB_BY_SLUG_QUERY,
+    { slug },
+    { tags: ["jobListing", `jobListing:${slug}`], revalidate: 60 }
+  );
+
+  return cmsResult || null;
+}
+
+export async function getJobSlugs(): Promise<Array<{ slug: string; updatedAt?: string }>> {
+  const cmsResult = await fetchSanity<Array<{ slug: string; updatedAt?: string }>>(
+    JOB_SLUGS_QUERY,
+    {},
+    { tags: ["jobListing"], revalidate: 300 }
+  );
+
+  return cmsResult || [];
+}
+
+
+
