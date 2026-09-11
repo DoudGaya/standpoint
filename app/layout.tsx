@@ -78,6 +78,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+import { GoogleAnalytics } from "@/components/site/GoogleAnalytics";
 import { getCurrentLocale } from "@/lib/i18n/server";
 
 export default async function RootLayout({
@@ -93,6 +94,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} className={`${manrope.variable} ${newsreader.variable}`} suppressHydrationWarning>
       <body suppressHydrationWarning>
+        <GoogleAnalytics />
         {children}
         {sanityEnv.configured ? (
           <SanityLive
